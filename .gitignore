@@ -1,0 +1,11 @@
+# editor foldres and files
+
+*.swp
+
+
+# project folders and files
+
+*/node_modules
+*.env
+
+*/dist*
