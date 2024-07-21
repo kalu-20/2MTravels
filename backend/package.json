@@ -4,7 +4,7 @@
   "description": "api restful service for travels project created with node, express and mysql.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node --env-file .env index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,6 +18,6 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "mysql": "^2.18.1"
+    "mysql2": "^3.10.3"
   }
 }
