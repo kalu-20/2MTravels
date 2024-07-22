@@ -17,10 +17,10 @@ const dbQuery = async (sql) => {
     try {
 	const connection = await pool.getConnection();
 
-	const [rows, fields] = await connection.query(sql);
+	const data = await connection.query(sql);
 	connection.release();
 
-	return { rows, fields };
+	return data;
     }
     catch (err) {
 	console.log(`DB Error: ${err.message}`)
