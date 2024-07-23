@@ -11,6 +11,27 @@ const getProfile = async (req) => {
 	FROM profiles 
 	WHERE id=${id};
     `;
+
+    const profile = await dbQuery(sqlQuery);
+    return profile[0];
+}
+
+const getProfileByUser = async (req) => {
+
+    const userEmail = req.body.email;
+
+    const sqlQuery = `
+	SELECT * 
+	FROM profiles 
+	WHERE users_id=(
+	    SELECT id 
+	    FROM users 
+	    WHERE email='${userEmail}'
+	);
+    `;
+
+    const profile = await dbQuery(sqlQuery);
+    return profile[0];
 }
 
 const createProfile = async (req) => {
@@ -73,6 +94,7 @@ const deleteProfile = async (req) => {
 
 module.exports = {
     getProfile,
+    getProfileByUser,
     createProfile,
     editProfile,
     deleteProfile,

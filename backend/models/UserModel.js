@@ -16,6 +16,20 @@ const getUser = async (req) => {
     return user[0];
 }
 
+const getUserByEmail = async (req) => {
+
+    const email = req.body.email;
+
+    const sqlQuery = `
+	SELECT * 
+	FROM users 
+	WHERE email='${email}';
+    `;
+    
+    const user = await dbQuery(sqlQuery);
+    return user[0];
+}
+
 const createUser = async (req) => {
 
     const sqlQuery = `
@@ -70,6 +84,7 @@ const deleteUser = async (req) => {
 
 module.exports = {
     getUser,
+    getUserByEmail,
     createUser,
     editUser,
     deleteUser,

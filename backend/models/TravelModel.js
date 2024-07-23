@@ -12,8 +12,8 @@ const getTravel = async (req) => {
 	SELECT 
 	    travels.id AS travel_id, 
 	    name, 
-	    DATE_FORMAT(start_date, '%d/%m/%Y') AS start_dt, 
-	    DATE_FORMAT(end_date, '%d/%m/%Y') AS end_dt, 
+	    DATE_FORMAT(start_date, '%d-%m-%Y') AS start_dt, 
+	    DATE_FORMAT(end_date, '%d-%m-%Y') AS end_dt, 
 	    cost, 
 	    promos.id AS promo_id, 
 	    DATE_FORMAT(start_time, '%d-%m-%Y %H:%i:%s') AS start_tm, 
@@ -56,8 +56,8 @@ const getTravelsByPassenger = async (req) => {
 	SELECT 
 	    travels.id AS travel_id, 
 	    name, 
-	    DATE_FORMAT(start_date, '%d/%m/%Y') AS start_dt, 
-	    DATE_FORMAT(end_date, '%d/%m/%Y') AS end_dt, 
+	    DATE_FORMAT(start_date, '%d-%m-%Y') AS start_dt, 
+	    DATE_FORMAT(end_date, '%d-%m-%Y') AS end_dt, 
 	    cost, 
 	    promos.id AS promo_id, 
 	    DATE_FORMAT(start_time, '%d-%m-%Y %H:%i:%s') AS start_tm, 
@@ -86,8 +86,8 @@ const getTravelsByPlace = async (req) => {
 	SELECT 
 	    id, 
 	    name, 
-	    DATE_FORMAT(start_date, '%d/%m/%Y') AS start_dt, 
-	    DATE_FORMAT(end_date, '%d/%m/%Y') AS end_dt, 
+	    DATE_FORMAT(start_date, '%d-%m-%Y') AS start_dt, 
+	    DATE_FORMAT(end_date, '%d-%m-%Y') AS end_dt, 
 	    cost 
 	FROM travels 
 	WHERE id 
@@ -111,8 +111,8 @@ const getTravelsByCity = async (req) => {
 	SELECT 
 	    id, 
 	    name, 
-	    DATE_FORMAT(start_date, '%d/%m/%Y') AS start_dt, 
-	    DATE_FORMAT(end_date, '%d/%m/%Y') AS end_dt, 
+	    DATE_FORMAT(start_date, '%d-%m-%Y') AS start_dt, 
+	    DATE_FORMAT(end_date, '%d-%m-%Y') AS end_dt, 
 	    cost 
 	FROM travels 
 	WHERE id 
@@ -138,8 +138,8 @@ const createTravel = async (req) => {
 	    cost
 	) VALUES(
 	    '${req.body.name}',
-	    STR_TO_DATE('${req.body.startDate}','%d/%m/%Y'),
-	    STR_TO_DATE('${req.body.endDate}','%d/%m/%Y'),
+	    STR_TO_DATE('${req.body.startDate}','%d-%m-%Y'),
+	    STR_TO_DATE('${req.body.endDate}','%d-%m-%Y'),
 	    ${req.body.cost}
 	);
     `;
@@ -156,8 +156,8 @@ const editTravel = async (req) => {
 	UPDATE travels
 	SET 
 	    name='${req.body.name}', 
-	    start_date=STR_TO_DATE('${req.body.startDate}', '%d/%m/%Y'), 
-	    end_date=STR_TO_DATE('${req.body.endDate}', '%d/%m/%Y'), 
+	    start_date=STR_TO_DATE('${req.body.startDate}', '%d-%m-%Y'), 
+	    end_date=STR_TO_DATE('${req.body.endDate}', '%d-%m-%Y'), 
 	    cost=${req.body.cost} 
 	WHERE id=${id};
     `;

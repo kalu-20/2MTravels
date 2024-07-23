@@ -2,16 +2,38 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-const PORT = 3000;
+const userRouter = require('./routes/userRouter');
+const profileRouter = require('./routes/profileRouter');
+const travelRouter = require('./routes/travelRouter');
+const passengerRouter = require('./routes/travelPassengerRouter');
+const stopRouter = require('./routes/stopRouter');
+const promoRouter = require('./routes/promoRouter');
 
-app.use(cors())
+const verifyAuthUser = require('./middlewares/authMiddleware');
+
+const PORT = 3000;
+const corsOptions = {
+    origin: /^http:\/\/(localhost:127.0.0.\d{1,3})(:\d+){0,1}$/,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions))
 app.use(express.json());
 
-app.use('/', (req, res) => {
-    res.status(200).send({ msg: "hola mundo" });
-});
-app.use((res, req) => {
-    res.status(404).send({ msg: "error, recurso no encontrado." });
+app.use('/users', userRouter);
+app.use('/travels', travelRouter);
+app.use('/stops', stopRouter);
+app.use('/promos', promoRouter);
+app.use(verifyAuthUser);
+app.use('/profiles', profileRouter);
+app.use('/passenger', passengerRouter);
+
+app.use((req, res) => {
+    res.status(404).send({
+	success: false,
+	msg: "Invalid request, resource not found.",
+    });
 });
 
 app.listen(PORT, () => {

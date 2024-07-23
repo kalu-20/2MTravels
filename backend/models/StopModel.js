@@ -41,7 +41,7 @@ const createStop = async (req) => {
 
 const editStop = async (req) => {
 
-    const stopId = req.body.stopId;
+    const id = req.body.stopId;
 
     const sqlQuery = `
 	UPDATE stops 
@@ -50,7 +50,7 @@ const editStop = async (req) => {
 	days =${req.body.days}, 
 	cities_id =${req.body.cityId}, 
 	places_id=${req.body.placeId} 
-	WHERE id=${stopId};
+	WHERE id=${id};
     `;
     const result = await dbQuery(sqlQuery);
     return result[0];
@@ -58,12 +58,12 @@ const editStop = async (req) => {
 
 const deleteStop = async (req) => {
 
-    const stopId = req.body.stopId;
+    const id = req.body.stopId;
 
     const sqlQuery = `
 	DELETE 
 	FROM stops 
-	WHERE id=${stopId};
+	WHERE id=${id};
     `;
     const result = await dbQuery(sqlQuery);
     return result[0];
