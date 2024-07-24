@@ -12,8 +12,8 @@ const {
 const verifyAdmin = require('../middlewares/authorizeMiddleware');
 
 
-router.get('/', getStopsByTravelController);
 router.post('/create', verifyAdmin, createStopController);
+router.post('/', getStopsByTravelController);
 router.put('/edit/:id', verifyAdmin, editStopController);
 router.delete('/delete/:id', verifyAdmin, deleteStopController);
 router.delete('/delete', verifyAdmin, deleteStopsByTravelController);

@@ -13,10 +13,10 @@ const verifyAdmin = require('../middlewares/authorizeMiddleware');
 
 
 router.post('/create', createProfileController);
+router.post('/', getProfileByUserController);
 router.put('/edit/:id', editProfileController);
 router.delete('/delete/:id', deleteProfileController);
 router.get('/:id', verifyAdmin, getProfileController);
-router.get('/', getProfileByUserController);
 
 
 module.exports = router;

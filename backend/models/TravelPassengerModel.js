@@ -6,7 +6,7 @@ const createPassenger = async (req) => {
     const sqlQuery = `
 	INSERT INTO travel_passenger(
 	    travels_id,
-	    profiles_id,
+	    profiles_id
 	) VALUES(
 	    ${req.body.travelId},
 	    ${req.body.profileId}

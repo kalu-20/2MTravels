@@ -13,10 +13,10 @@ const {
 const verifyAdmin = require('../middlewares/authorizeMiddleware');
 
 
-router.get('/passenger', getTravelsByPassengerController);
 router.get('/:id', getTravelController);
 router.get('/', getAllTravelsController);
 router.post('/create', verifyAdmin, createTravelController);
+router.post('/passenger', getTravelsByPassengerController);
 router.put('/edit/:id', verifyAdmin, editTravelController);
 router.delete('/delete/:id', verifyAdmin, deleteTravelController);
 

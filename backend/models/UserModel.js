@@ -67,8 +67,10 @@ const editUser = async (req) => {
 
 const deleteUser = async (req) => {
 
-    // delete the associated profile 
-    const resultDeleteProfile = await deleteProfile(req);
+    // delete the associated profile if profileId provided
+    if (req.body.profileId) {
+	const resultDeleteProfile = await deleteProfile(req);
+    }
 
     const id = req.body.userId;
 

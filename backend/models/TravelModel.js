@@ -20,7 +20,8 @@ const getTravel = async (req) => {
 	    DATE_FORMAT(end_time, '%d-%m-%Y %H:%i:%s') AS end_tm, 
 	    discount 
 	FROM travels LEFT OUTER JOIN promos 
-	WHERE travels_id=${id};
+	ON travels.id = promos.travels_id 
+	WHERE travels.id=${id};
     `;
     const travel = await dbQuery(sqlQuery);
 
@@ -64,6 +65,7 @@ const getTravelsByPassenger = async (req) => {
 	    DATE_FORMAT(end_time, '%d-%m-%Y %H:%i:%s') AS end_tm, 
 	    discount 
 	FROM travels LEFT OUTER JOIN promos 
+	ON travels.id = promos.travels_id 
 	WHERE travels.id 
 	IN (
 	    SELECT travels_id 

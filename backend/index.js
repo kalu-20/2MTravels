@@ -27,7 +27,7 @@ app.use('/stops', stopRouter);
 app.use('/promos', promoRouter);
 app.use(verifyAuthUser);
 app.use('/profiles', profileRouter);
-app.use('/passenger', passengerRouter);
+app.use('/passengers', passengerRouter);
 
 app.use((req, res) => {
     res.status(404).send({
@@ -37,5 +37,6 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
+    console.log('PROBAR TODOS LOS CONCHUDOS ENDPOINTS')
     console.log(`Server listen on port: ${PORT}.`)
 });

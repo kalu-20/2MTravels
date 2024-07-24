@@ -1,5 +1,5 @@
 const { dbQuery } = require('../utils/dbConnection');
-const { deletePassengerByProfile } = require('./TravelPassengerModel');
+const { deletePassengersByProfile } = require('./TravelPassengerModel');
 
 
 const getProfile = async (req) => {
@@ -61,7 +61,7 @@ const editProfile = async (req) => {
     const id = req.body.profileId;
 
     const sqlQuery = `
-	UPDATE profile 
+	UPDATE profiles 
 	SET 
 	    name='${req.body.name}',
 	    dni='${req.body.dni}',

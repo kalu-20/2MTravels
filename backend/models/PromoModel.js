@@ -4,7 +4,11 @@ const { dbQuery } = require('../utils/dbConnection');
 const getAllPromos = async () => {
 
     const sqlQuery = `
-	SELECT * 
+	SELECT 
+	    id,
+	    DATE_FORMAT(start_time, '%d-%m-%Y %H:%i:%s') AS start_tm,
+	    DATE_FORMAT(end_time, '%d-%m-%Y %H:%i:%s') AS end_tm,
+	    discount 
 	FROM promos;
     `;
 
@@ -17,7 +21,11 @@ const getPromo = async (req) => {
     const id = req.body.promoId;
 
     const sqlQuery = `
-	SELECT * 
+	SELECT 
+	    id,
+	    DATE_FORMAT(start_time, '%d-%m-%Y %H:%i:%s') AS start_tm,
+	    DATE_FORMAT(end_time, '%d-%m-%Y %H:%i:%s') AS end_tm,
+	    discount 
 	FROM promos 
 	WHERE id=${id};
     `;
@@ -35,8 +43,8 @@ const createPromo = async (req) => {
 	    discount,
 	    travels_id
 	) VALUES(
-	    '${req.body.startTime}',
-	    '${req.body.endTime}',
+	    STR_TO_DATE('${req.body.startTime}', '%d-%m-%Y %H:%i:%s'),
+	    STR_TO_DATE('${req.body.endTime}', '%d-%m-%Y %H:%i:%s'),
 	    ${req.body.discount},
 	    ${req.body.travelId}
 	);
@@ -53,9 +61,9 @@ const editPromo = async (req) => {
     const sqlQuery = `
 	UPDATE promos 
 	SET
-	    start_time='${req.body.startTime}',
-	    end_time='${req.body.endTime}',
-	    discount=${req.body.discount},
+	    start_time=STR_TO_DATE('${req.body.startTime}', '%d-%m-%Y %H:%i:%s'),
+	    end_time=STR_TO_DATE('${req.body.endTime}', '%d-%m-%Y %H:%i:%s'),
+	    discount=${req.body.discount} 
 	WHERE id=${id};
     `;
     

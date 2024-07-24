@@ -20,6 +20,8 @@ const getAllPromosController = (req, res) => {
 
 const getPromoController = (req, res) => {
 
+    req.body.promoId = req.params.id;
+
     protectedResourceHandler(req, res, getPromo);
 }
 
@@ -30,10 +32,14 @@ const createPromoController = (req, res) => {
 
 const editPromoController = (req, res) => {
 
+    req.body.promoId = req.params.id;
+
     protectedResourceHandler(req, res, editPromo);
 }
 
 const deletePromoController = (req, res) => {
+
+    req.body.promoId = req.params.id;
 
     protectedResourceHandler(req, res, deletePromo);
 }
