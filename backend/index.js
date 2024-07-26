@@ -8,6 +8,8 @@ const travelRouter = require('./routes/travelRouter');
 const passengerRouter = require('./routes/travelPassengerRouter');
 const stopRouter = require('./routes/stopRouter');
 const promoRouter = require('./routes/promoRouter');
+const cityRouter = require('./routes/cityRouter');
+const placeRouter = require('./routes/placeRouter');
 
 const verifyAuthUser = require('./middlewares/authMiddleware');
 
@@ -21,6 +23,8 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(express.json());
 
+app.use('/cities', cityRouter);
+app.use('/places', placeRouter);
 app.use('/users', userRouter);
 app.use('/travels', travelRouter);
 app.use('/stops', stopRouter);
@@ -37,6 +41,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('PROBAR TODOS LOS CONCHUDOS ENDPOINTS')
     console.log(`Server listen on port: ${PORT}.`)
 });
