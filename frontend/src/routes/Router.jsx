@@ -1,5 +1,7 @@
-import {createBrowserRouter, Link} from "react-router-dom";
+import {createBrowserRouter, Outlet} from "react-router-dom";
+import {TravelProvider} from "../contexts/TravelContext.jsx";
 import Layout from "./Layout.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 import Home from "../pages/Home.jsx";
 import Profile from "../pages/Profile.jsx";
 import Travels from "../pages/Travels.jsx";
@@ -24,20 +26,37 @@ const router = createBrowserRouter([
                 element: <About />
             },
             {
-                path: '/profile',// PROTEGIDA PARA USUARIO
-                element: <Profile />
+                path: '/profile',
+                element: (
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                )
             },
             {
-                path: '/my-travels',// PROTEGIDA PARA USUARIO
-                element: <MyTravels />
+                path: '/my-travels',
+                element: (
+                    <ProtectedRoute>
+                        <MyTravels />
+                    </ProtectedRoute>
+                )
             },
             {
-                path: '/travels',// TravelProvider
-                element: <Travels />
-            },
-            {
-                path: '/travels/:id',// TravelProvider
-                element: <Travel />
+                element: (
+                    <TravelProvider>
+                        <Outlet />
+                    </TravelProvider>
+                ),
+                children: [
+                    {
+                        path: '/travels',
+                        element: <Travels />
+                    },
+                    {
+                        path: '/travels/:id',
+                        element: <Travel />
+                    },
+                ]
             },
             {
                 path: '/login',

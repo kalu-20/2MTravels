@@ -1,22 +1,34 @@
 import {Link} from "react-router-dom";
+import {useContext} from "react";
+import {ProfileContext} from "../contexts/ProfileContext.jsx";
 
 function Header() {
+    const { state, dispatch } = useContext(ProfileContext);
+
     return (
         <header>
             <h1>TravelsARG</h1>
-            <navbar>
+            <nav>
                 <Link style={{margin: '20px'}} to="/">Home</Link>
 
-                <a style={{margin: '20px'}} href="/profile">Perfil</a>
-                <a style={{margin: '20px'}} href="/my-travels">Mis Viajes</a>
-                {/* ESTA ES OPCIONAL, MOSTRAR PERFIL SI ESTA LOGEADO,
-                SINO MOSTRAR LOGIN Y SIGN-UP */}
-                <a style={{margin: '20px'}} href="/login">Ingresar</a>
-                <a style={{margin: '20px'}} href="/sign-up">Registrarse</a>
-
-                <a style={{margin: '20px'}} href="/travels">Viajes</a>
+                <Link style={{margin: '20px'}} to="travels">Viajes</Link>
                 <Link style={{margin: '20px'}} to="about">Quienes Somos</Link>
-            </navbar>
+
+                {state.isAuthenticated ? (
+                    <>
+                        <Link style={{margin: '20px'}} to="my-travels">Mis Viajes</Link>
+                        <Link style={{margin: '20px'}} to="profile">Perfil</Link>
+                        <button style={{margin: '20px'}} onClick={() => dispatch({ type: 'LOGOUT' })}>
+                            Cerrar Sesión
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <Link style={{margin: '20px'}} to="login">Ingresar</Link>
+                        <Link style={{margin: '20px'}} to="sign-up">Registrarse</Link>
+                    </>
+                )}
+            </nav>
         </header>
     );
 }

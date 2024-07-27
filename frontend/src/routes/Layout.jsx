@@ -1,16 +1,18 @@
 import {Outlet} from "react-router-dom";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+import { ProfileProvider } from "../contexts/ProfileContext.jsx";
 
 function Layout() {
+
     return (
-        <>{/* aqui va el ProfileContext */}
+        <ProfileProvider>
             <Header />
             <div>
                 <Outlet />
             </div>
             <Footer />
-        </>
+        </ProfileProvider>
     );
 }
 

@@ -1,133 +1,80 @@
-const defTravel = {
-    id: 4,
-    name: "Viaje a Rosario de fin de año",
-    startDate: "07/08/2024",
-    endDate: "08/08/2024",
-    cost: 1003.99,
-}
-
-const defCities = [
-    {
-        id: 4,
-        name: "Santiago del estero",
-        imgUrl: "google.com",
-    }
-]
-
-const defPlaces = [
-    {
-        id: 31,
-        name: "Comedor de Santiago del Estero",
-        imgUrl: "http://google.com/imagen-de-santiago",
-        address: "Calle siempre viva",
-        cityId: 4,
-    },
-    {
-        id: 32,
-        name: "Montaña de Santiago del Estero",
-        imgUrl: "http://google.com/imagen-de-santiago",
-        address: "Calle siempre viva",
-        cityId: 4,
-    },
-    {
-        id: 33,
-        name: "Balneario de Santiago del Estero",
-        imgUrl: "http://google.com/imagen-de-santiago",
-        address: "Calle siempre viva",
-        cityId: 4,
-    },
-]
-
-const defStops = [
-    {
-        id: 10,
-        stopOrder: 1,
-        days: 1,
-        placeId: 31,
-    },
-    {
-        id: 10,
-        stopOrder: 2,
-        days: 1,
-        placeId: 32,
-    },
-    {
-        id: 10,
-        stopOrder: 3,
-        days: 1,
-        placeId: 33,
-    },
-]
-
-const locations = defStops.map(stop => {
-    const {
-        id,
-        name,
-        imgUrl,
-        address,
-        cityId
-    } = defPlaces.find(place => place.id === stop.placeId)
-
-    return {
-        stopId: stop.id,
-        days: stop.days,
-        stopOrder: stop.stopOrder,
-        placeId: id,
-        name,
-        imgUrl,
-        address,
-        cityId,
-    }
-});
-
-const defPromo =
-{
-    startTime: "02/10/2024",
-    endTime: "03/10/2024",
-    discount: 50.99,
-}
+import StopCard from "../components/StopCard.jsx";
+import {useContext, useEffect, useState} from "react";
+import DataContext from "../contexts/DataContext.jsx";
+import {TravelContext} from "../contexts/TravelContext.jsx";
 
 function Travel () {
+    const [stops, setStops] = useState([]);
+
+    const { cities, places } = useContext(DataContext);
+    const { travel } = useContext(TravelContext);
+
+    useEffect(() => {
+        const getStops = async () => {
+            const res = await fetch('http://localhost:3000/stops', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    travelId: travel.travel_id,
+                })
+            })
+
+            const response = await res.json();
+            if (response.success) {
+                setStops(response.data)
+            }
+        }
+
+        getStops()
+    }, []);
+
+    const stopInfos = stops.map(stop => {
+
+        let stopLocation;
+        if (stop.cities_id) {
+            stopLocation = cities.find(city => city.id === stop.cities_id)
+        }
+        else if (stop.places_id) {
+            stopLocation = places.find(place => place.id === stop.places_id)
+        }
+
+        return {
+            stopId: stop.id,
+            days: stop.days,
+            stopOrder: stop.stopOrder,
+            placeId: stopLocation?.id,
+            name: stopLocation?.name,
+            imgUrl: stopLocation?.img_url,
+            address: stopLocation?.address,
+            cityId: stopLocation?.cities_id,
+        }
+    });
 
     return (
         <>
-            <h2>{defTravel.name}</h2>
+            <h2>{travel.name}</h2>
             <p>
-                Inicia el {defTravel.startDate} - Termina el {defTravel.endDate}
+                Inicia el {travel.start_dt} - Termina el {travel.end_dt}
             </p>
 
-            <h3>Promoción</h3>
-            <b>Descuento del {defPromo.discount}% !!!</b>
-            <p>
-                Aplica desde el {defPromo.startTime} hasta {defPromo.endTime}.
-            </p>
+            {travel.promo_id && (
+                <div className="promo-container">
+                    <h3>Promoción</h3>
+                    <b>Descuento del {travel.discount}% !!!</b>
+                    <p>
+                        Aplica desde el {travel.start_tm} hasta {travel.end_tm}.
+                    </p>
+                </div>
+            )}
 
             <h3>Paradas</h3>
             <div className="stops-container">
-                { locations.map(loc => {
+                {stopInfos.map(stop => {
+                    const cityName = cities.length ? cities.find(city => city.id === stop.cityId)?.name : ''
                     return (
-                        <div className="stop-card">
-                            <p style={{border: "2px gray solid"}}>
-                                IMAGEN IMAGEN IMAGEN
-                                <br/>
-                                IMAGEN IMAGEN IMAGEN
-                                {loc.imgUrl}
-                            </p>
-
-                            <h4>{loc.name}</h4>
-
-                            <p>
-                                Dias: {loc.days}
-                            </p>
-
-                            <p>
-                                Ciudad: {defCities.find(city => city.id === loc.cityId).name}
-                            </p>
-
-                            <p>
-                                Direccion: {loc.address}
-                            </p>
-                        </div>
+                        <StopCard key={stop.stopId} stopData={stop} cityName={cityName} />
                     );
                 })}
             </div>

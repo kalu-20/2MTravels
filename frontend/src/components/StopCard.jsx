@@ -1,17 +1,18 @@
-function Stop ({ loc, cityName}) {
+function StopCard ({ stopData, cityName }) {
+
     return (
         <div className="stop-card">
             <p style={{border: "2px gray solid"}}>
                 IMAGEN IMAGEN IMAGEN
                 <br/>
                 IMAGEN IMAGEN IMAGEN
-                {loc.imgUrl}
+                {stopData.imgUrl}
             </p>
 
-            <h4>{loc.name}</h4>
+            <h4>{stopData.name}</h4>
 
             <p>
-                Dias: {loc.days}
+                Dias: {stopData.days}
             </p>
 
             <p>
@@ -19,10 +20,10 @@ function Stop ({ loc, cityName}) {
             </p>
 
             <p>
-                Direccion: {loc.address}
+                Direccion: {stopData.address}
             </p>
         </div>
     )
 }
 
-export default Stop
+export default StopCard

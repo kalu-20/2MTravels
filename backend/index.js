@@ -15,7 +15,7 @@ const verifyAuthUser = require('./middlewares/authMiddleware');
 
 const PORT = 3000;
 const corsOptions = {
-    origin: /^http:\/\/(localhost:127.0.0.\d{1,3})(:\d+){0,1}$/,
+    origin: /^http:\/\/(localhost|127.0.0.\d{1,3})(:\d+){0,1}$/,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -29,9 +29,9 @@ app.use('/users', userRouter);
 app.use('/travels', travelRouter);
 app.use('/stops', stopRouter);
 app.use('/promos', promoRouter);
-app.use(verifyAuthUser);
-app.use('/profiles', profileRouter);
-app.use('/passengers', passengerRouter);
+
+app.use('/profiles', verifyAuthUser, profileRouter);
+app.use('/passengers', verifyAuthUser, passengerRouter);
 
 app.use((req, res) => {
     res.status(404).send({
