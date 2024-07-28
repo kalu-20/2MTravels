@@ -7,14 +7,6 @@ import router from './routes/Router.jsx'
 
 import DataContext from "./contexts/DataContext.jsx";
 
-/*
-- trabajar en los llamados de la api
-+ crear una pagina para la creacion de 'places'
-    (crear las categorias basadas en un select options..., 12 opciones)
-- persistencia del token
-- fetchQuery
-- estilos
- */
 
 function App() {
 

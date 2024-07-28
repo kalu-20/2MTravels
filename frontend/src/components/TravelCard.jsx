@@ -22,7 +22,7 @@ function TravelCard ({ travel, showPromo }) {
             <b>
                 Solo por ${travel.cost}
             </b>
-            { showPromo ? (
+            {showPromo && (
                 <>
                     {travel.promo_id && (
                         <b>
@@ -31,8 +31,6 @@ function TravelCard ({ travel, showPromo }) {
                         </b>
                     )}
                 </>
-            ) : (
-                ''
             )}
         </div>
     )

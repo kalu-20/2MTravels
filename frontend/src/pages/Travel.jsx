@@ -6,11 +6,13 @@ import {Navigate, useNavigate, useParams} from "react-router-dom";
 import TravelForm from "../components/TravelForm.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import PromoForm from "../components/PromoForm.jsx";
+import StopForm from "../components/StopForm.jsx";
 
 function Travel () {
     const navigate = useNavigate();
 
     const [stops, setStops] = useState([]);
+    const [myTravels, setMyTravels] = useState([]);
     const [travelFormOpen, setTravelFormOpen] = useState(false);
     const [promoFormOpen, setPromoFormOpen] = useState(false);
     const [stopFormOpen, setStopFormOpen] = useState(false);
@@ -43,6 +45,30 @@ function Travel () {
 
         getStops()
     }, [travel]);
+
+    useEffect(() => {
+        const getMyTravels = async () => {
+            const res = await fetch('http://localhost:3000/travels/passenger', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${state.token}`,
+                },
+                body: JSON.stringify({
+                    profileId: state.profile.profileId,
+                })
+            });
+            const response = await res.json();
+
+            if (response.success) {
+                setMyTravels(response.data)
+            }
+        }
+
+        if (state.profile?.profileId) {
+            getMyTravels();
+        }
+    }, []);
 
     const deleteTravelHandler = async (e) => {
         e.preventDefault();
@@ -96,6 +122,39 @@ function Travel () {
         }
     }
 
+    const purchaseTravelHandler = async (e) => {
+        e.preventDefault();
+
+        if (!confirm(`¿Deseas comprar el viaje "${travel.name}" por $${travel.cost}?`)) {
+            return;
+        }
+
+        try {
+            const res = await fetch('http://localhost:3000/passengers/create', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${state.token}`,
+                },
+                body: JSON.stringify({
+                    profileId: state.profile.profileId,
+                    travelId: travel.travel_id,
+                })
+            })
+            const response = await res.json();
+
+            if (response.success) {
+                alert('Viaje comprado correctamente.');
+            }
+            else {
+                throw new Error(response.error);
+            }
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+    }
+
     const stopInfos = stops.map(stop => {
         let stopLocation;
         if (stop.cities_id) {
@@ -103,7 +162,7 @@ function Travel () {
             return {
                 stopId: stop.id,
                 days: stop.days,
-                stopOrder: stop.stopOrder,
+                stopOrder: stop.stop_order,
                 cityId: stopLocation.id,
                 name: stopLocation.name,
                 imgUrl: stopLocation.img_url,
@@ -114,7 +173,7 @@ function Travel () {
             return {
                 stopId: stop.id,
                 days: stop.days,
-                stopOrder: stop.stopOrder,
+                stopOrder: stop.stop_order,
                 placeId: stopLocation.id,
                 name: stopLocation.name,
                 imgUrl: stopLocation.img_url,
@@ -124,6 +183,19 @@ function Travel () {
             }
         }
     });
+
+    let lastStopOrder;
+    if (stops.length > 2) {
+        lastStopOrder = stops.reduce((prevStop, currStop) => {
+            return prevStop.stop_order < currStop.stop_order ? currStop : prevStop;
+        }).stop_order
+    }
+    else if (!stops.length) {
+        lastStopOrder = 0;
+    }
+    else {
+        lastStopOrder = stops[0].stop_order;
+    }
 
     return (
         <>
@@ -137,7 +209,7 @@ function Travel () {
                     <button onClick={deleteTravelHandler}>Borrar Viaje</button>
                 </>
             )}
-            {stopFormOpen && (
+            {travelFormOpen && (
                 <TravelForm newTravel={false} />
             )}
 
@@ -166,15 +238,30 @@ function Travel () {
                     )}
                 </>)
             )}
+            {(state.isAuthenticated && !myTravels.some(tr => tr.travel_id === travel.travel_id)) && (
+                <>
+                    <button onClick={purchaseTravelHandler}>Comprar Viaje</button>
+                </>
+            )}
 
             <h3>Paradas</h3>
             <div className="stops-container">
-                {stopInfos.map(stop => {
-                    const cityName = cities.length ? cities.find(city => city.id === stop.cityId)?.name : ''
-                    return (
-                        <StopCard key={stop.stopId} stopData={stop} cityName={cityName} />
-                    );
-                })}
+                {(state.isAuthenticated && state.profile.role === 'admin') && (
+                    <>
+                        <button onClick={() => setStopFormOpen(!stopFormOpen)}>Crear Parada</button>
+                        {stopFormOpen && (
+                            <StopForm newStop={true} biggestOrder={lastStopOrder} />
+                        )}
+                    </>
+                )}
+                {stopInfos
+                    .sort((s1, s2) => s1.stopOrder < s2.stopOrder)
+                    .map(stop => {
+                        const cityName = cities.length ? cities.find(city => city.id === stop.cityId)?.name : ''
+                        return (
+                            <StopCard key={stop.stopId} stopData={stop} cityName={cityName} biggestOrder={lastStopOrder} />
+                        );
+                    })}
             </div>
         </>
     )
