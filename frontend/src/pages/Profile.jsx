@@ -2,11 +2,49 @@ import {useContext, useState} from "react";
 import {ProfileContext, ProfileProvider} from "../contexts/ProfileContext.jsx";
 import DataContext from "../contexts/DataContext.jsx";
 import ProfileForm from "../components/ProfileForm.jsx";
+import {useNavigate} from "react-router-dom";
+import RegisterForm from "../components/RegisterForm.jsx";
 
 function Profile () {
-    const [formOpen, setFormOpen] = useState(false);
+    const [profileFormOpen, setProfileFormOpen] = useState(false);
+    const [userFormOpen, setUserFormOpen] = useState(false)
     const { state } = useContext(ProfileContext);
     const { cities } = useContext(DataContext)
+
+    const navigate = useNavigate();
+
+    const deleteHandler = async (e) => {
+        e.preventDefault();
+
+        if (!confirm('¿Desea borrar la cuenta? Es una accion irreversible.')) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/users/delete/${state.profile.id}`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${1}`,
+                },
+                body: JSON.stringify({
+                    profileId: state.profile.profileId
+                })
+            })
+            const response = await res.json();
+
+            if (response.success) {
+                alert('Cuenta borrada exitosamente.')
+                navigate('/sign-up')
+            }
+            else {
+                throw new Error(response.error)
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <>
@@ -28,15 +66,24 @@ function Profile () {
                     <b>Ciudad de residencia</b>
                     <p>{cities.find(city => city.id === state.profile.cityId)?.name || ''}</p>
 
-                    <input type="button" value="Editar"/>
-
-                    <br/>
+                    <button onClick={() => {
+                        setProfileFormOpen(!profileFormOpen)
+                    }}>Editar Perfil
+                    </button>
+                    {profileFormOpen ? (
+                        <ProfileForm newProfile={false}/>
+                    ) : (
+                        ''
+                    )}
                 </>
             ) : (
                 <>
-                    <button onClick={() => {setFormOpen(!formOpen)}}>Crear Perfil</button>
-                    {formOpen ? (
-                        <ProfileForm />
+                    <button onClick={() => {
+                        setProfileFormOpen(!profileFormOpen)
+                    }}>Crear Perfil
+                    </button>
+                    {profileFormOpen ? (
+                        <ProfileForm newProfile={true}/>
                     ) : (
                         ''
                     )}
@@ -54,10 +101,12 @@ function Profile () {
                     <p>Administrador</p>
                 </>
             ) : ''}
+            <button onClick={() => setUserFormOpen(!userFormOpen)}>Editar Cuenta</button>
+            {userFormOpen ? (
+                <RegisterForm editingUser={true}/>
+            ) : ('')}
 
-            <button style={{border: "2px red solid"}} onClick={() => alert("borrado user")}>
-                Borrar Usuario
-            </button>
+            <button onClick={deleteHandler}>Borrar Usuario</button>
         </>
     )
 }

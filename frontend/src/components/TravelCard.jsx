@@ -2,7 +2,7 @@ import {useContext} from "react";
 import {TravelContext} from "../contexts/TravelContext.jsx";
 import {Link} from "react-router-dom";
 
-function TravelCard ({ travel }) {
+function TravelCard ({ travel, showPromo }) {
 
     const { setTravel } = useContext(TravelContext);
 
@@ -22,6 +22,18 @@ function TravelCard ({ travel }) {
             <b>
                 Solo por ${travel.cost}
             </b>
+            { showPromo ? (
+                <>
+                    {travel.promo_id && (
+                        <b>
+                            ¡Descuento del {travel.discount}%
+                            desde el {travel.start_tm} hasta {travel.end_tm}!
+                        </b>
+                    )}
+                </>
+            ) : (
+                ''
+            )}
         </div>
     )
 }

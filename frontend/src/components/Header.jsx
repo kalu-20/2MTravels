@@ -7,12 +7,12 @@ function Header() {
 
     return (
         <header>
-            <h1>TravelsARG</h1>
+            <h1>Las 2M Travel</h1>
             <nav>
                 <Link style={{margin: '20px'}} to="/">Home</Link>
-
-                <Link style={{margin: '20px'}} to="travels">Viajes</Link>
-                <Link style={{margin: '20px'}} to="about">Quienes Somos</Link>
+                <Link style={{margin: '20px'}} to="/hostings">Hospedaje</Link>
+                <Link style={{margin: '20px'}} to="/excursions">Excursiones</Link>
+                <Link style={{margin: '20px'}} to="/promos">Promociones</Link>
 
                 {state.isAuthenticated ? (
                     <>

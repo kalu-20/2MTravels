@@ -1,21 +1,33 @@
-const myTravels = [
-    {
-        id: 1,
-        name: "Viaje a Rosario de fin de año",
-        startDate: "07/08/2024",
-        endDate: "08/08/2024",
-        cost: 1000.99,
-    },
-    {
-        id: 2,
-        name: "Viaje a Rosario de fin de año",
-        startDate: "07/08/2024",
-        endDate: "08/08/2024",
-        cost: 1002.99,
-    },
-]
+import {useContext, useEffect, useState} from "react";
+import {ProfileContext} from "../contexts/ProfileContext.jsx";
 
 function MyTravels () {
+
+    const [myTravels, setMyTravels] = useState([]);
+
+    const { state } = useContext(ProfileContext);
+
+    useEffect(() => {
+        const getMyTravels = async () => {
+            const res = await fetch('http://localhost:3000/travels/passenger', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${state.token}`,
+                },
+                body: JSON.stringify({
+                    profileId: state.profile.profileId,
+                })
+            })
+            const response = await res.json();
+
+            if (response.success) {
+                setMyTravels(response.data)
+            }
+        }
+
+        getMyTravels();
+    }, []);
     return (
         <>
             <h2>Mis Viajes</h2>
@@ -23,10 +35,10 @@ function MyTravels () {
             <div className="my-travels-container">
                 { myTravels.map(travel => {
                     return (
-                        <div className="my-travel-card">
+                        <div key={travel.travel_id} className="my-travel-card">
                             <h3>{travel.name}</h3>
 
-                            <p>{travel.startDate} - {travel.endDate}</p>
+                            <p>Fechas: {travel.start_dt} / {travel.end_dt}</p>
 
                             <p>Precio: ${travel.cost}</p>
                         </div>

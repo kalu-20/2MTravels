@@ -9,6 +9,9 @@ import DataContext from "./contexts/DataContext.jsx";
 
 /*
 - trabajar en los llamados de la api
++ crear una pagina para la creacion de 'places'
+    (crear las categorias basadas en un select options..., 12 opciones)
+- persistencia del token
 - fetchQuery
 - estilos
  */
@@ -17,6 +20,7 @@ function App() {
 
     const [cities, setCities] = useState([]);
     const [places, setPlaces] = useState([]);
+    const [travels, setTravels] = useState([]);
 
     useEffect(() => {
         const getCities = async () => {
@@ -42,11 +46,23 @@ function App() {
             }
         }
         getPlaces()
+
+        const getTravels = async () => {
+            const res = await fetch('http://localhost:3000/travels', {
+                method: 'GET'
+            })
+
+            const response = await res.json();
+            if (response.success) {
+                setTravels(response.data)
+            }
+        }
+        getTravels()
     }, []);
 
     return (
         <>
-            <DataContext.Provider value={{ cities, places }}>
+            <DataContext.Provider value={{ cities, places, travels }}>
             <RouterProvider router={router} />
             </DataContext.Provider>
         </>

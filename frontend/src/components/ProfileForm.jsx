@@ -1,14 +1,14 @@
 import {useContext, useState} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 
-function ProfileForm () {
-
-    const [name, setName] = useState("");
-    const [dni, setDni] = useState("");
-    const [phone, setPhone] = useState("");
-    const [city, setCity] = useState("");
+function ProfileForm ({ newProfile }) {
 
     const { state, dispatch } = useContext(ProfileContext);
+
+    const [name, setName] = useState(newProfile ? "" : state.profile.name);
+    const [dni, setDni] = useState(newProfile ? "" : state.profile.dni);
+    const [phone, setPhone] = useState(newProfile ? "" : state.profile.phone);
+    const [city, setCity] = useState(newProfile ? "" : state.profile.cityId);
 
     const formHandler = async (e) => {
         e.preventDefault();
@@ -22,8 +22,11 @@ function ProfileForm () {
         }
 
         try {
-            const res = await fetch('http://localhost:3000/profiles/create', {
-                method: 'POST',
+            const requestPath = newProfile ? 'create' : `edit/${state.profile.profileId}`;
+            const requestMethod = newProfile ? 'POST' : 'PUT';
+
+            const res = await fetch(`http://localhost:3000/profiles/${requestPath}`, {
+                method: requestMethod,
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${state.token}`,
@@ -33,12 +36,12 @@ function ProfileForm () {
             const response = await res.json();
 
             if (response.success) {
-                alert('Perfil creado correctamente.')
+                alert('Perfil guardado correctamente.')
 
                 dispatch({
                     type: 'PROFILE',
                     profile: {
-                        profileId: response.data.insertId,
+                        profileId: newProfile ? response.data.insertId : state.profile.profileId,
                         name,
                         dni,
                         phone,
@@ -47,7 +50,7 @@ function ProfileForm () {
                 })
             }
             else {
-                alert('Creación de perfil fallida.')
+                alert('Gestión de perfil fallida.')
                 throw new Error(response.error)
             }
         }
@@ -58,21 +61,21 @@ function ProfileForm () {
 
     return (
         <>
-            <h3>Crear Perfil</h3>
+            <h3>{newProfile ? 'Crear' : 'Editar'} Perfil</h3>
             <form onSubmit={formHandler}>
                 <label htmlFor="name-input">Nombre</label>
-                <input id="name-input" type="text" onChange={(e) => setName(e.target.value)}/>
+                <input id="name-input" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
 
                 <label htmlFor="dni-input">DNI</label>
-                <input id="dni-input" type="text" onChange={(e) => setDni(e.target.value)}/>
+                <input id="dni-input" type="text" value={dni} onChange={(e) => setDni(e.target.value)}/>
 
                 <label htmlFor="phone-input">Número Telefónico</label>
-                <input id="phone-input" type="text" onChange={(e) => setPhone(e.target.value)}/>
+                <input id="phone-input" type="text" value={phone} onChange={(e) => setPhone(e.target.value)}/>
 
                 <label htmlFor="city-input">Ciudad</label>
-                <input id="city-input" type="text" onChange={(e) => setCity(e.target.value)}/>
+                <input id="city-input" type="text" value={city} onChange={(e) => setCity(e.target.value)}/>
 
-                <button type="submit">Crear</button>
+                <button type="submit">{newProfile ? 'Crear' : 'Editar'}</button>
             </form>
         </>
     )

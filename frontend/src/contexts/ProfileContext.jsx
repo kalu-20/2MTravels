@@ -19,7 +19,10 @@ function reducer (state, action) {
         case 'PROFILE':
             return {
                 ...state,
-                profile: action.profile,
+                profile: {
+                    ...state.profile,
+                    ...action.profile
+                },
             }
         case 'LOGOUT':
             return DEFAULT_USER_STATE

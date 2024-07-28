@@ -5,13 +5,17 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import Home from "../pages/Home.jsx";
 import Profile from "../pages/Profile.jsx";
 import Travels from "../pages/Travels.jsx";
-import About from "../pages/About.jsx";
 import Travel from "../pages/Travel.jsx";
 import NotFound from "../pages/NotFound.jsx";
 import MyTravels from "../pages/MyTravels.jsx";
+import Hosting from "../pages/Hosting.jsx";
+import Excursion from "../pages/Excursion.jsx";
+import Promos from "../pages/Promos.jsx";
+import Festival from "../pages/Festival.jsx";
+import Museum from "../pages/Museum.jsx";
+import Food from "../pages/Food.jsx";
 import LoginForm from "../components/LoginForm.jsx";
 import RegisterForm from "../components/RegisterForm.jsx";
-
 
 const router = createBrowserRouter([
     {
@@ -22,8 +26,28 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: '/about',
-                element: <About />
+                path: '/festivals',
+                element: <Festival />
+            },
+            {
+                path: '/museums',
+                element: <Museum />
+            },
+            {
+                path: '/foods',
+                element: <Food />
+            },
+            {
+                path: '/hostings',
+                element: <Hosting />
+            },
+            {
+                path: '/excursions',
+                element: <Excursion />
+            },
+            {
+                path: '/promos',
+                element: <Promos />
             },
             {
                 path: '/profile',

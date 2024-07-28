@@ -19,9 +19,17 @@ function StopCard ({ stopData, cityName }) {
                 Ciudad: {cityName}
             </p>
 
-            <p>
-                Direccion: {stopData.address}
-            </p>
+            {stopData.address ? (
+                <>
+                    <p>
+                        Direccion: {stopData.address}
+                    </p>
+
+                    <p>
+                        Categoría: {stopData.category}
+                    </p>
+                </>
+            ) : ('')}
         </div>
     )
 }
