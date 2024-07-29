@@ -1,19 +1,34 @@
 import {Link} from "react-router-dom";
+import {Toolbar, Link as StyleLink, MenuItem} from "@mui/material";
+
+const toolBarStyle = {
+    backgroundColor: '#77b9f6',
+    flexWrap: 'wrap',
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+};
 
 function Home () {
     return (
         <>
-            <nav>
-                <Link style={{margin: '20px'}} to="travels">Viajes y Circuitos</Link>
-                <Link style={{margin: '20px'}} to="festivals">Fiestas y Festivales</Link>
-                <Link style={{margin: '20px'}} to="museums">Museos y Artesanías</Link>
-                <Link style={{margin: '20px'}} to="foods">Comedores</Link>
-            </nav>
+            <Toolbar sx={toolBarStyle}>
+                <MenuItem sx={{py: '6px', px: '12px'}}>
+                    <Link style={{color: '#060e35', textDecoration: 'none'}} to="travels">Viajes y Circuitos</Link>
+                </MenuItem>
+                <MenuItem sx={{py: '6px', px: '12px'}}>
+                    <Link style={{color: '#060e35', textDecoration: 'none'}} to="festivals">Fiestas y Festivales</Link>
+                </MenuItem>
+                <MenuItem sx={{py: '6px', px: '12px'}}>
+                    <Link style={{color: '#060e35', textDecoration: 'none'}} to="museums">Museos y Artesanías</Link>
+                </MenuItem>
+                <MenuItem sx={{py: '6px', px: '12px'}}>
+                    <Link style={{color: '#060e35', textDecoration: 'none'}} to="foods">Comedores</Link>
+                </MenuItem>
+            </Toolbar>
 
             <h2>¡Con <i>Las 2M Travel</i> podrás vivir grandes experiencias!</h2>
-            <p style={{border: "2px gray solid"}}>
-                IMAGEN IMAGEN IMAGEN
-            </p>
+            <img src="../../src/assets/banner_argentina.jpg" alt="Bus de viaje"/>
 
             <h2>Quienes Somos</h2>
             <p>
@@ -25,9 +40,8 @@ function Home () {
             </p>
 
             <h2>Nuestros Transportes</h2>
-            <p style={{border: "2px gray solid"}}>
-                imagen de 4x4 y un bus argentino ejej
-            </p>
+            <img src="../../src/assets/bus_grande.jpg" alt="Bus de viaje"/>
+            <img src="../../src/assets/auto_4x4.jpg" alt="Automovil 4 por 4"/>
             <p>
                 Poseemos minibuses y camionetas 4x4.
             </p>

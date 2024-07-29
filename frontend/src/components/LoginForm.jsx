@@ -1,5 +1,6 @@
 import {useContext, useState} from "react";
 import { ProfileContext } from "../contexts/ProfileContext.jsx";
+import {Avatar, Box, Button, Container, CssBaseline, TextField} from "@mui/material";
 
 function LoginForm () {
 
@@ -76,17 +77,54 @@ function LoginForm () {
     }
 
     return (
-        <>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
             <form onSubmit={formHandler}>
-                <label htmlFor="login-input">Correo</label>
-                <input id="login-input" type="text" onChange={(e) => setEmail(e.target.value)}/>
+                <Box sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}>
+                    <h3>Iniciar Sesión</h3>
+                    <Avatar sx={{ m: 1, bgcolor: "primary.main" }}></Avatar>
 
-                <label htmlFor="passw-input">Contraseña</label>
-                <input id="passw-input" type="password" onChange={(e) => setPassw(e.target.value)}/>
+                    <TextField
+                        margin="normal"
+                        required
+                        id="email-input"
+                        fullWidth
+                        label="Correo Electrónico"
+                        autoFocus
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                        }}
+                    />
 
-                <button type="submit">Ingresar</button>
+                    <TextField
+                        margin="normal"
+                        required
+                        id="passw-input"
+                        fullWidth
+                        label="Contraseña"
+                        autoFocus
+                        type="password"
+                        onChange={(e) => {
+                            setPassw(e.target.value);
+                        }}
+                    />
+
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Iniciar Sesión
+                    </Button>
+                </Box>
             </form>
-        </>
+        </Container>
     )
 }
 

@@ -14,7 +14,7 @@ function Promos () {
                     .filter(tr => tr.promo_id)
                     .map(travel => {
                         return (
-                            <TravelCard travel={travel} showPromo={true} />
+                            <TravelCard key={travel.promo_id} travel={travel} showPromo={true} />
                         )
                     })}
             </div>

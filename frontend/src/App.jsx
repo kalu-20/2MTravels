@@ -1,12 +1,28 @@
-import reactLogo from './assets/react.svg'
-
 import {useEffect, useState} from 'react'
 import { RouterProvider } from "react-router-dom";
 
-import router from './routes/Router.jsx'
-
 import DataContext from "./contexts/DataContext.jsx";
 
+import router from './routes/Router.jsx'
+import {createTheme, ThemeProvider} from "@mui/material";
+
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#000000',
+            secondary: '#f2f9ff',
+            textPrimary: '#95a1ac',
+            textSecondary: '#dbe2e7',
+        },
+        secondary: {
+            main: '#f2f9ff',
+        },
+        whiteColor: {
+            main: '#ffffff'
+        }
+    },
+})
 
 function App() {
 
@@ -55,7 +71,9 @@ function App() {
     return (
         <>
             <DataContext.Provider value={{ cities, places, travels }}>
-            <RouterProvider router={router} />
+            <ThemeProvider theme={theme}>
+                <RouterProvider router={router} />
+            </ThemeProvider>
             </DataContext.Provider>
         </>
     )

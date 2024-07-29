@@ -17,6 +17,8 @@ import Food from "../pages/Food.jsx";
 import LoginForm from "../components/LoginForm.jsx";
 import RegisterForm from "../components/RegisterForm.jsx";
 
+import HomePage from "../pages/HomePage.jsx";
+
 const router = createBrowserRouter([
     {
         element: <Layout />,
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home />
+            },
+            {
+                path: '/page',
+                element: <HomePage />
             },
             {
                 path: '/festivals',
@@ -44,10 +50,6 @@ const router = createBrowserRouter([
             {
                 path: '/excursions',
                 element: <Excursion />
-            },
-            {
-                path: '/promos',
-                element: <Promos />
             },
             {
                 path: '/profile',
@@ -79,6 +81,10 @@ const router = createBrowserRouter([
                     {
                         path: '/travels/:id',
                         element: <Travel />
+                    },
+                    {
+                        path: '/promos',
+                        element: <Promos />
                     },
                 ]
             },

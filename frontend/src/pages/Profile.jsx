@@ -8,7 +8,7 @@ import RegisterForm from "../components/RegisterForm.jsx";
 function Profile () {
     const [profileFormOpen, setProfileFormOpen] = useState(false);
     const [userFormOpen, setUserFormOpen] = useState(false)
-    const { state } = useContext(ProfileContext);
+    const { state, dispatch } = useContext(ProfileContext);
     const { cities } = useContext(DataContext)
 
     const navigate = useNavigate();
@@ -106,6 +106,9 @@ function Profile () {
                 <RegisterForm editingUser={true}/>
             ) : ('')}
 
+            <button onClick={() => dispatch({type: 'LOGOUT'})}>
+                Cerrar Sesión
+            </button>
             <button onClick={deleteHandler}>Borrar Usuario</button>
         </>
     )
