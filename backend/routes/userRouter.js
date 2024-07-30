@@ -9,12 +9,15 @@ const {
     deleteUserController,
 } = require('../controllers/userController');
 
+const verifyAuthUser = require('../middlewares/authMiddleware');
+const verifyAdmin = require('../middlewares/authorizeMiddleware');
+
 
 router.post('/register', registerUserController);
 router.post('/login', loginUserController);
-router.put('/edit/:id', editUserController);
-router.delete('/delete/:id', deleteUserController);
-router.get('/:id', getUserController);
+router.put('/edit/:id', verifyAuthUser, editUserController);
+router.delete('/delete/:id', verifyAuthUser, deleteUserController);
+router.get('/:id', verifyAdmin, getUserController);
 
 
 module.exports = router;

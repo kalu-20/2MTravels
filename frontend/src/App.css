@@ -5,12 +5,13 @@
 
 .container {
     max-width: 1180px;
+    margin-top: 50px;
     margin-inline: auto;
     padding-inline: 3vw;
 }
 
 .flex {
-    display: flex;
+    display: flex !important;
     align-items: center;
 }
 
@@ -29,13 +30,20 @@
 }
 
 .header-right img {
-    width: 300px;
-    border-radius: 50%;
+    max-width: 300px;
 }
 
-.github-image img {
-    width: 200px;
-    border-radius: 50%;
+#banner {
+    position: relative;
+    height: 50vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+#img-banner {
+    position: absolute;
+    right: 0;
+    bottom: -90%;
 }
 
 .second-div {

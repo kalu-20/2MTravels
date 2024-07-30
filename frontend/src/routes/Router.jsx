@@ -14,10 +14,9 @@ import Promos from "../pages/Promos.jsx";
 import Festival from "../pages/Festival.jsx";
 import Museum from "../pages/Museum.jsx";
 import Food from "../pages/Food.jsx";
+import PlaceForm from "../pages/PlaceForm.jsx";
 import LoginForm from "../components/LoginForm.jsx";
 import RegisterForm from "../components/RegisterForm.jsx";
-
-import HomePage from "../pages/HomePage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -26,10 +25,6 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home />
-            },
-            {
-                path: '/page',
-                element: <HomePage />
             },
             {
                 path: '/festivals',
@@ -64,6 +59,14 @@ const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <MyTravels />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: '/create-place',
+                element: (
+                    <ProtectedRoute>
+                        <PlaceForm />
                     </ProtectedRoute>
                 )
             },

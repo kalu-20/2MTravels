@@ -82,6 +82,20 @@ const deleteStopsByTravel = async (req) => {
     return result[0];
 }
 
+const deleteStopsByPlace = async (req) => {
+
+    const placeId = req.body.placeId;
+
+    const sqlQuery = `
+	DELETE FROM 
+	places 
+	WHERE id=${placeId};
+    `;
+
+    const result = await dbQuery(sqlQuery);
+    return result[0];
+}
+
 
 module.exports = {
     getStopsByTravel,
@@ -89,4 +103,5 @@ module.exports = {
     editStop,
     deleteStop,
     deleteStopsByTravel,
+    deleteStopsByPlace,
 }

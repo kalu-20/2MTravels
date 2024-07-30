@@ -1,15 +1,16 @@
 import {useContext} from "react";
 import DataContext from "../contexts/DataContext.jsx";
 import PlaceCard from "../components/PlaceCard.jsx";
+import {Container, Grid} from "@mui/material";
 
 function Festival () {
 
     const { places, cities } = useContext(DataContext)
 
     return (
-        <>
+        <Container width="md" maxWidth="lg">
             <h2>Festivales y Fiestas</h2>
-            <div className="festivals-container">
+            <Grid container spacing={4}>
                 {places
                     .filter(pl => pl.category === 'Festival' || pl.category === 'Fiesta')
                     .map(place => {
@@ -19,8 +20,8 @@ function Festival () {
                             )
                         })
                     }
-            </div>
-        </>
+            </Grid>
+        </Container>
     )
 }
 

@@ -41,6 +41,7 @@ function RegisterForm ({ editingUser }) {
                 method: requestMethod,
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": editingUser ? `Bearer ${state.token}` : undefined,
                 },
                 body: JSON.stringify(userBody)
             })
@@ -71,7 +72,7 @@ function RegisterForm ({ editingUser }) {
             <CssBaseline />
             <form onSubmit={formHandler}>
                 <Box sx={{
-                    marginTop: 8,
+                    marginTop: 4,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -84,6 +85,7 @@ function RegisterForm ({ editingUser }) {
                         required
                         id="email-input"
                         fullWidth
+                        value={email}
                         label="Correo Electrónico"
                         autoFocus
                         onChange={(e) => {
@@ -97,8 +99,8 @@ function RegisterForm ({ editingUser }) {
                         id="passw-input"
                         fullWidth
                         label="Contraseña"
+                        value={passw}
                         type="password"
-                        autoFocus
                         onChange={(e) => {
                             setPassw(e.target.value);
                         }}
@@ -133,19 +135,3 @@ function RegisterForm ({ editingUser }) {
 }
 
 export default RegisterForm;
-
-/*
-                    <h2>{editingUser ? 'Editar' : 'Registrar'} Usuario</h2>
-            <form onSubmit={formHandler}>
-                <label htmlFor="login-input">Correo</label>
-                <input id="login-input" type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
-
-                <label htmlFor="passw-input">{editingUser ? 'Nueva ' : ''}Contraseña</label>
-                <input id="passw-input" type="password" value={passw} onChange={(e) => setPassw(e.target.value)}/>
-
-                <label htmlFor="role-input">Tipo de Usuario</label>
-                <input id="role-input" type="text" value={role} onChange={(e) => setRole(e.target.value)}/>
-
-                <button type="submit">{editingUser ? 'Guardar' : 'Crear Cuenta'}</button>
-            </form>
- */

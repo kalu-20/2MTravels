@@ -6,17 +6,17 @@ import DataContext from "./contexts/DataContext.jsx";
 import router from './routes/Router.jsx'
 import {createTheme, ThemeProvider} from "@mui/material";
 
-
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#000000',
-            secondary: '#f2f9ff',
-            textPrimary: '#95a1ac',
-            textSecondary: '#dbe2e7',
+            main: '#060e35',
+            secondary: '#0e87ff',
+            textPrimary: '#f2f9ff',
+            textSecondary: '#95a1ac',
         },
         secondary: {
             main: '#f2f9ff',
+            secondary: '#77b9f6',
         },
         whiteColor: {
             main: '#ffffff'

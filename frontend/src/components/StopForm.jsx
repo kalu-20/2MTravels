@@ -1,10 +1,13 @@
 import {useContext, useState} from "react";
 import {TravelContext} from "../contexts/TravelContext.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
+import {Button, Container, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import DataContext from "../contexts/DataContext.jsx";
 
 function StopForm ({ newStop, biggestOrder, stopData }) {
     const { travel } = useContext(TravelContext);
     const { state } = useContext(ProfileContext)
+    const { cities, places } = useContext(DataContext);
 
     let defaultType;
     if (newStop || stopData.placeId) {
@@ -55,27 +58,60 @@ function StopForm ({ newStop, biggestOrder, stopData }) {
     }
 
     return (
-        <>
-            <b>{newStop ? 'Crear' : 'Editar'} Parada</b>
+        <Container component='main' maxWidth='xs'>
+            <h3>{newStop ? 'Crear' : 'Editar'} Parada</h3>
             <form onSubmit={formHandler}>
                 {newStop && (
-                    <button onClick={(e) => {
-                        e.preventDefault()
-                        setStopType(stopType === 'place' ? 'city' : 'place')
-                    }}>
+                    <Button
+                        fullWidth
+                        variant='outlined'
+                        onClick={(e) => {
+                            e.preventDefault()
+                            setStopType(stopType === 'place' ? 'city' : 'place')
+                        }}
+                    >
                         {stopType === 'place' ? 'Tipo: Lugar (Recomendado)' : 'Tipo: Ciudad'}
-                    </button>
+                    </Button>
                 )}
 
-                <label htmlFor="days-input">Dias de viaje</label>
-                <input id="days-input" type="number" value={days} onChange={(e) => setDays(e.target.value)}/>
+                <TextField
+                    margin="normal"
+                    required
+                    id="days-input"
+                    fullWidth
+                    value={days}
+                    label="Días de Viaje"
+                    inputProps={{ inputMode:'numeric', min: 1, step: 1}}
+                    onChange={(e) => setDays(e.target.value)}
+                />
 
-                <label htmlFor="location-input">{stopType === 'place' ? 'Lugar' : 'Ciudad'}</label>
-                <input id="location-input" value={locationId} onChange={(e) => setLocationId(e.target.value)} />
+                <FormControl fullWidth>
+                    <InputLabel id="location-label">Lugar</InputLabel>
+                    <Select
+                        labelId="location-label"
+                        id="location-select"
+                        name="location"
+                        onChange={(e) => setLocationId(e.target.value)}
+                        value={locationId}
+                        label="Lugar"
+                    >
+                        {(stopType === 'place') ? (
+                            places.map(pl => {
+                                return <MenuItem key={pl.id} value={pl.id}>{pl.name}</MenuItem>
+                            })
+                        ) : (
+                            cities.map(ct => {
+                                return <MenuItem key={ct.id} value={ct.id}>{ct.name}</MenuItem>
+                            })
+                        )}
+                    </Select>
+                </FormControl>
 
-                <button type="submit">Guardar</button>
+                <Button variant='contained' fullWidth type="submit">
+                    Guardar
+                </Button>
             </form>
-        </>
+        </Container>
     )
 }
 

@@ -1,5 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
+import {Button, CardContent, Container, Grid, Typography} from "@mui/material";
 
 function MyTravels () {
 
@@ -62,27 +63,28 @@ function MyTravels () {
         }
     }
     return (
-        <>
+        <Container width="md" maxWidth="lg">
             <h2>Mis Viajes</h2>
 
-            <div className="my-travels-container">
+            <Grid container spacing={4}>
                 { myTravels.map(travel => {
                     return (
-                        <div key={travel.travel_id} className="my-travel-card">
-                            <h3>{travel.name}</h3>
-
-                            <p>Fechas: {travel.start_dt} / {travel.end_dt}</p>
-
-                            <p>Precio: ${travel.cost}</p>
-
-                            <button onClick={(e) => deleteHandler(e, travel)}>
-                                Cancelar Viaje
-                            </button>
-                        </div>
+                        <Grid key={travel.travel_id} item xs={12} sm={6} md={4}>
+                            <CardContent sx={{backgroundColor: 'secondary.secondary', borderRadius: '10px'}}>
+                                <Typography gutterBottom color="secondary" variant="h5" component="h2">
+                                    {travel.name}
+                                </Typography>
+                                <p>Fechas: {travel.start_dt} / {travel.end_dt}</p>
+                                <p>Precio: ${travel.cost}</p>
+                                <Button variant='contained' color="primary" onClick={(e) => deleteHandler(e, travel)}>
+                                    Cancelar Viaje
+                                </Button>
+                            </CardContent>
+                        </Grid>
                     )
                 })}
-            </div>
-        </>
+            </Grid>
+        </Container>
     )
 }
 

@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import {TravelContext} from "../contexts/TravelContext.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {Button, Container, TextField} from "@mui/material";
 
 function TravelForm ({ newTravel }) {
     const navigate = useNavigate();
@@ -54,23 +55,58 @@ function TravelForm ({ newTravel }) {
     }
 
     return (
-        <>
+        <Container component="main" maxWidth="xs">
             <form onSubmit={newTravelHandler}>
-                <label htmlFor="travel-name-input">Nombre</label>
-                <input id="travel-name-input" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                <TextField
+                    sx={{margin: '40px 0 0'}}
+                    required
+                    id="travel-name-input"
+                    fullWidth
+                    value={name}
+                    label="Nombre"
+                    autoFocus
+                    onChange={(e) => setName(e.target.value)}
+                />
 
-                <label htmlFor="start-trav-input">Fecha Inicio del Viaje</label>
-                <input id="start-trav-input" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
+                <TextField
+                    margin="normal"
+                    required
+                    id="start-trav-input"
+                    fullWidth
+                    value={startDate}
+                    type='date'
+                    label="Fecha Inicio del Viaje"
+                    onChange={(e) => setStartDate(e.target.value)}
+                />
 
-                <label htmlFor="end-trav-input">Fecha Fin del Viaje</label>
-                <input id="end-trav-input" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
+                <TextField
+                    margin="normal"
+                    required
+                    id="end-trav-input"
+                    fullWidth
+                    value={endDate}
+                    type='date'
+                    label="Fecha Fin del Viaje"
+                    onChange={(e) => setEndDate(e.target.value)}
+                />
 
-                <label htmlFor="cost-input">Precio</label>
-                <input id="cost-input" type="text" value={cost} onChange={(e) => setCost(e.target.value)}/>
+                <TextField
+                    margin="normal"
+                    required
+                    id="cost-input"
+                    fullWidth
+                    value={cost}
+                    label="Precio"
+                    type='numeric'
+                    inputProps={{ inputMode: 'numeric', min: 0 }}
+                    onChange={(e) => setCost(e.target.value)}
+                />
 
-                <button type="submit">{newTravel ? "Crear" : "Editar"} Viaje</button>
+                <Button fullWidth variant='contained' type="submit">
+                    {newTravel ? "Crear" : "Editar"} Viaje
+                </Button>
             </form>
-        </>
+        </Container>
     )
 }
 

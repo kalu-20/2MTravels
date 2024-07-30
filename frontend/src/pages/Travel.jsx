@@ -7,9 +7,24 @@ import TravelForm from "../components/TravelForm.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import PromoForm from "../components/PromoForm.jsx";
 import StopForm from "../components/StopForm.jsx";
+import {Box, Button, Container, Grid, Modal, Typography} from "@mui/material";
+
+import '../App.css'
+
+const modalBoxSx = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'whiteColor.main',
+    borderRadius: '20px',
+    boxShadow: 24,
+    padding: '0 30px 30px',
+};
 
 function Travel () {
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [stops, setStops] = useState([]);
     const [myTravels, setMyTravels] = useState([]);
@@ -18,12 +33,25 @@ function Travel () {
     const [stopFormOpen, setStopFormOpen] = useState(false);
 
     const { cities, places} = useContext(DataContext);
-    const { travel } = useContext(TravelContext);
+    const { travel, setTravel } = useContext(TravelContext);
     const { state } = useContext(ProfileContext)
 
-    if (!travel.travel_id) {
-        return <Navigate to="/travels" />
-    }
+    useEffect(() => {
+        const getTravel = async () => {
+            const res = await fetch(`http://localhost:3000/travels/${id}`, {
+                method: 'GET'
+            });
+            const response = await res.json();
+
+            if (response.success) {
+                setTravel(response.data[0])
+            }
+        }
+
+        if (!travel.travel_id && !isNaN(id)) {
+            getTravel();
+        }
+    }, []);
 
     useEffect(() => {
         const getStops = async () => {
@@ -43,7 +71,9 @@ function Travel () {
             }
         }
 
-        getStops()
+        if (travel.travel_id) {
+            getStops()
+        }
     }, [travel]);
 
     useEffect(() => {
@@ -198,72 +228,127 @@ function Travel () {
     }
 
     return (
-        <>
-            <h2>{travel.name}</h2>
-            <p>
-                Inicia el {travel.start_dt} / Termina el {travel.end_dt}
-            </p>
-            {(state.isAuthenticated && state.profile.role === 'admin') && (
-                <>
-                    <button onClick={() => setTravelFormOpen(!travelFormOpen)}>Editar Viaje</button>
-                    <button onClick={deleteTravelHandler}>Borrar Viaje</button>
-                </>
-            )}
-            {travelFormOpen && (
-                <TravelForm newTravel={false} />
-            )}
-
-            {travel.promo_id ? (
-                <div className="promo-container">
-                    <h3>Promoción</h3>
-                    <b>Descuento del {travel.discount}% !!!</b>
+        <Container width="md" maxWidth="lg">
+            <div className={"container header-section flex"}>
+                <div className="header-left">
+                    <h2>{travel.name}</h2>
                     <p>
-                        Aplica desde el {travel.start_tm} hasta {travel.end_tm}.
+                        Inicia el {travel.start_dt}
+                    </p>
+                    <p>
+                        Termina el {travel.end_dt}
+                    </p>
+                    <p>
+                        Precio: ${travel.cost}
                     </p>
                     {(state.isAuthenticated && state.profile.role === 'admin') && (
-                        <>
-                            <button onClick={() => setPromoFormOpen(!promoFormOpen)}>Editar Promoción</button>
-                            <button onClick={deletePromoHandler}>Borrar Promoción</button>
-                        </>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', gap: '20px'}}>
+                            <Button variant='outlined' onClick={() => setTravelFormOpen(!travelFormOpen)}>
+                                Editar Viaje
+                            </Button>
+                            <Button sx={{bgcolor: 'primary.main'}} variant='contained' onClick={deleteTravelHandler}>
+                                Borrar Viaje
+                            </Button>
+                        </Box>
                     )}
-                    {promoFormOpen && (
-                        <PromoForm newPromo={false} />
+                    {(state.isAuthenticated && !myTravels.some(tr => tr.travel_id === travel.travel_id)) && (
+                        <Button fullWidth sx={{marginTop: '10px', bgcolor: 'secondary.secondary'}} variant='contained'
+                                onClick={purchaseTravelHandler}>
+                            Comprar Viaje
+                        </Button>
+                    )}
+
+                    <Modal
+                        open={travelFormOpen}
+                        onClose={() => setTravelFormOpen(!travelFormOpen)}
+                    >
+                        <Box sx={modalBoxSx}>
+                            <TravelForm newTravel={false}/>
+                        </Box>
+                    </Modal>
+                </div>
+
+                <div className="header-right">
+                    {travel.promo_id ? (
+                        <div className="promo-container">
+                            <h3>Promoción</h3>
+                            <Typography variant="h6" color="primary.secondary" gutterBottom>
+                                Descuento del {travel.discount}% !!!
+                            </Typography>
+                            <p>
+                                Aplica desde el {travel.start_tm} hasta {travel.end_tm}.
+                            </p>
+                            {(state.isAuthenticated && state.profile.role === 'admin') && (
+                                <Box sx={{display: 'flex', justifyContent: 'space-between', gap: '20px'}}>
+                                    <Button variant='outlined'
+                                            onClick={() => setPromoFormOpen(!promoFormOpen)}
+                                    >
+                                        Editar Promoción
+                                    </Button>
+                                    <Button sx={{bgcolor: 'secondary.secondary'}} variant='contained' onClick={deletePromoHandler}>
+                                        Borrar Promoción
+                                    </Button>
+                                </Box>
+                            )}
+                            <Modal
+                                open={promoFormOpen}
+                                onClose={() => setPromoFormOpen(!promoFormOpen)}
+                            >
+                                <Box sx={modalBoxSx}>
+                                    <PromoForm newPromo={false}/>
+                                </Box>
+                            </Modal>
+                        </div>
+                    ) : (
+                        (state.isAuthenticated && state.profile.role === 'admin') && (
+                            <Box>
+                                <Button sx={{marginBottom: '20px', bgcolor: 'secondary.secondary'}} variant='contained'
+                                        onClick={() => setPromoFormOpen(!promoFormOpen)}
+                                >
+                                    Crear Promoción
+                                </Button>
+                                <Modal
+                                    open={promoFormOpen}
+                                    onClose={() => setPromoFormOpen(!promoFormOpen)}
+                                >
+                                    <Box sx={modalBoxSx}>
+                                        <PromoForm newPromo={true}/>
+                                    </Box>
+                                </Modal>
+                            </Box>)
                     )}
                 </div>
-            ) : (
-                (state.isAuthenticated && state.profile.role === 'admin') && (<>
-                    <button onClick={() => setPromoFormOpen(!promoFormOpen)}>Crear Promoción</button>
-                    {promoFormOpen && (
-                        <PromoForm newPromo={true}/>
-                    )}
-                </>)
-            )}
-            {(state.isAuthenticated && !myTravels.some(tr => tr.travel_id === travel.travel_id)) && (
-                <>
-                    <button onClick={purchaseTravelHandler}>Comprar Viaje</button>
-                </>
-            )}
+            </div>
 
             <h3>Paradas</h3>
-            <div className="stops-container">
-                {(state.isAuthenticated && state.profile.role === 'admin') && (
-                    <>
-                        <button onClick={() => setStopFormOpen(!stopFormOpen)}>Crear Parada</button>
-                        {stopFormOpen && (
-                            <StopForm newStop={true} biggestOrder={lastStopOrder} />
-                        )}
-                    </>
-                )}
+            {(state.isAuthenticated && state.profile.role === 'admin') && (
+                <>
+                    <Button variant='outlined' sx={{marginBottom: '40px', bgcolor: 'secondary.secondary'}}
+                            onClick={() => setStopFormOpen(!stopFormOpen)}>
+                        Crear Parada
+                    </Button>
+                    <Modal
+                        open={stopFormOpen}
+                        onClose={() => setStopFormOpen(!stopFormOpen)}
+                    >
+                        <Box sx={modalBoxSx}>
+                            <StopForm newStop={true} biggestOrder={lastStopOrder}/>
+                        </Box>
+                    </Modal>
+                </>
+            )}
+            <Grid container spacing={4}>
                 {stopInfos
                     .sort((s1, s2) => s1.stopOrder < s2.stopOrder)
                     .map(stop => {
                         const cityName = cities.length ? cities.find(city => city.id === stop.cityId)?.name : ''
                         return (
-                            <StopCard key={stop.stopId} stopData={stop} cityName={cityName} biggestOrder={lastStopOrder} />
+                            <StopCard key={stop.stopId} stopData={stop} cityName={cityName}
+                                      biggestOrder={lastStopOrder}/>
                         );
                     })}
-            </div>
-        </>
+            </Grid>
+        </Container>
     )
 }
 

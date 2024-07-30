@@ -1,9 +1,12 @@
 import {useContext, useState} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
+import {Button, Container, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import DataContext from "../contexts/DataContext.jsx";
 
 function ProfileForm ({ newProfile }) {
 
     const { state, dispatch } = useContext(ProfileContext);
+    const { cities } = useContext(DataContext);
 
     const [name, setName] = useState(newProfile ? "" : state.profile.name);
     const [dni, setDni] = useState(newProfile ? "" : state.profile.dni);
@@ -60,24 +63,63 @@ function ProfileForm ({ newProfile }) {
     }
 
     return (
-        <>
+        <Container component="main" maxWidth="xs">
             <h3>{newProfile ? 'Crear' : 'Editar'} Perfil</h3>
             <form onSubmit={formHandler}>
-                <label htmlFor="name-input">Nombre</label>
-                <input id="name-input" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                <TextField
+                    margin="normal"
+                    required
+                    id="name-input"
+                    fullWidth
+                    value={name}
+                    label="Nombre"
+                    autoFocus
+                    onChange={(e) => setName(e.target.value)}
+                />
 
-                <label htmlFor="dni-input">DNI</label>
-                <input id="dni-input" type="text" value={dni} onChange={(e) => setDni(e.target.value)}/>
+                <FormControl fullWidth>
+                    <InputLabel id="city-label">Ciudad</InputLabel>
+                    <Select
+                        labelId="city-label"
+                        id="city-select"
+                        name="city"
+                        onChange={(e) => setCity(e.target.value)}
+                        value={city}
+                        label="Ciudad"
+                    >
+                        {
+                            cities.map(ct => {
+                                return <MenuItem key={ct.id} value={ct.id}>{ct.name}</MenuItem>
+                            })
+                        }
+                    </Select>
+                </FormControl>
 
-                <label htmlFor="phone-input">Número Telefónico</label>
-                <input id="phone-input" type="text" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+                <TextField
+                    margin='normal'
+                    id='dni-input'
+                    required
+                    fullWidth
+                    value={dni}
+                    label='DNI'
+                    onChange={(e) => setDni(e.target.value)}
+                />
 
-                <label htmlFor="city-input">Ciudad</label>
-                <input id="city-input" type="text" value={city} onChange={(e) => setCity(e.target.value)}/>
+                <TextField
+                    margin='normal'
+                    id='phone-input'
+                    required
+                    fullWidth
+                    value={phone}
+                    label='Número Telefónico'
+                    onChange={(e) => setPhone(e.target.value)}
+                />
 
-                <button type="submit">{newProfile ? 'Crear' : 'Editar'}</button>
+                <Button variant='contained' fullWidth type="submit">
+                    {newProfile ? 'Crear' : 'Editar'}
+                </Button>
             </form>
-        </>
+        </Container>
     )
 }
 

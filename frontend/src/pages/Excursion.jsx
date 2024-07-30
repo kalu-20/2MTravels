@@ -1,10 +1,10 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import DataContext from "../contexts/DataContext.jsx";
 import PlaceCard from "../components/PlaceCard.jsx";
-import {Button, Toolbar} from "@mui/material";
+import {Button, Container, Grid, Toolbar} from "@mui/material";
 
 const toolBarStyle = {
-    backgroundColor: '#77b9f6',
+    backgroundColor: 'secondary.secondary',
     flexWrap: 'wrap',
     display: 'flex',
     justifyContent: 'space-around',
@@ -18,32 +18,34 @@ function Excursion () {
     return (
         <>
             <Toolbar sx={toolBarStyle}>
-                <Button value="Senderimo" style={{color: '#060e35', textDecoration: 'none'}}
+                <Button value="Senderismo" sx={{color: 'primary', textDecoration: 'none'}}
                         onClick={(e) => setCategory(e.target.value)}>
                     Senderismo
                 </Button>
-                <Button value="Cabalgata" style={{color: '#060e35', textDecoration: 'none'}}
+                <Button value="Cabalgata" sx={{color: 'primary', textDecoration: 'none'}}
                         onClick={(e) => setCategory(e.target.value)}>
                     Cabalgata
                 </Button>
-                <Button value="Trakking" style={{color: '#060e35', textDecoration: 'none'}}
+                <Button value="Trakking" sx={{color: 'primary', textDecoration: 'none'}}
                         onClick={(e) => setCategory(e.target.value)}>
                     Trakking
                 </Button>
             </Toolbar>
 
-            <h2>Excursiones Particulares - {category}</h2>
-            <div className="excursion-container">
-                {places
-                    .filter(pl => pl.category === category)
-                    .map(place => {
-                        const cityName = cities.find(city => city.id === place.cities_id).name
-                        return (
-                            <PlaceCard key={place.id} place={place} cityName={cityName} />
-                        )
-                    })
-                }
-            </div>
+            <Container width="md" maxWidth="lg">
+                <h2>Excursiones Particulares - {category}</h2>
+                <Grid container spacing={4}>
+                    {places
+                        .filter(pl => pl.category === category)
+                        .map(place => {
+                            const cityName = cities.find(city => city.id === place.cities_id).name
+                            return (
+                                <PlaceCard key={place.id} place={place} cityName={cityName}/>
+                            )
+                        })
+                    }
+                </Grid>
+            </Container>
         </>
     )
 }

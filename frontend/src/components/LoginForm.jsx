@@ -1,8 +1,11 @@
 import {useContext, useState} from "react";
 import { ProfileContext } from "../contexts/ProfileContext.jsx";
 import {Avatar, Box, Button, Container, CssBaseline, TextField} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function LoginForm () {
+
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [passw, setPassw] = useState("");
@@ -37,6 +40,7 @@ function LoginForm () {
                 role: userResponse.data.type,
             }
 
+            localStorage.setItem('loginDate', JSON.stringify(new Date()))
             dispatch({ type: 'LOGIN', token });
             dispatch({ type: 'PROFILE', profile });
 
@@ -70,6 +74,7 @@ function LoginForm () {
             }
 
             alert('Inicio de Sesión exitoso.')
+            navigate('/');
         }
         catch (err) {
             console.log(err.message)
@@ -107,7 +112,6 @@ function LoginForm () {
                         id="passw-input"
                         fullWidth
                         label="Contraseña"
-                        autoFocus
                         type="password"
                         onChange={(e) => {
                             setPassw(e.target.value);

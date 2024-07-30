@@ -1,4 +1,4 @@
-import {createContext, useContext, useReducer} from "react";
+import {createContext, useReducer} from "react";
 
 const DEFAULT_USER_STATE = {
     isAuthenticated: false,
@@ -9,22 +9,29 @@ const DEFAULT_USER_STATE = {
 const ProfileContext = createContext(DEFAULT_USER_STATE)
 
 function reducer (state, action) {
+    let newState;
     switch (action.type) {
         case 'LOGIN':
-            return {
+            newState = {
                 ...state,
                 isAuthenticated: true,
                 token: action.token
             }
+            localStorage.setItem('state', JSON.stringify(newState))
+            return newState;
         case 'PROFILE':
-            return {
+            newState = {
                 ...state,
                 profile: {
                     ...state.profile,
                     ...action.profile
                 },
             }
+            localStorage.setItem('state', JSON.stringify(newState))
+            return newState
         case 'LOGOUT':
+            localStorage.removeItem('loginDate')
+            localStorage.removeItem('state')
             return DEFAULT_USER_STATE
         default:
             return state
