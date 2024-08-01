@@ -1,11 +1,9 @@
 import {useContext, useState} from "react";
 import {TravelContext} from "../contexts/TravelContext.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
-import {useNavigate} from "react-router-dom";
 import {Button, Container, TextField} from "@mui/material";
 
 function TravelForm ({ newTravel }) {
-    const navigate = useNavigate();
 
     const { state } = useContext(ProfileContext)
     const { travel } = useContext(TravelContext);
@@ -43,7 +41,7 @@ function TravelForm ({ newTravel }) {
 
             if (response.success) {
                 alert('Gestion de viaje exitosa.')
-                navigate('/');
+                window.location.reload();
             }
             else {
                 throw new Error(response.error)

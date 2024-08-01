@@ -27,7 +27,9 @@ function MyTravels () {
             }
         }
 
-        getMyTravels();
+        if (state.profile?.profileId) {
+            getMyTravels();
+        }
     }, []);
 
     const deleteHandler = async (e, travel) => {
@@ -53,6 +55,7 @@ function MyTravels () {
 
             if (response.success) {
                 alert('Viaje cancelado exitosamente.');
+                window.location.reload();
             }
             else {
                 throw new Error(response.error)

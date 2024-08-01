@@ -18,7 +18,21 @@ function StopForm ({ newStop, biggestOrder, stopData }) {
     }
     const [stopType, setStopType] = useState(defaultType);
     const [days, setDays] = useState(newStop ? 1 : stopData.days);
-    const [locationId, setLocationId] = useState(newStop ? 0 : (stopData.placeId ?? stopData.cityId));
+
+    let defaultLocId;
+    if (stopType === 'place' && newStop) {
+        defaultLocId = places[0].id;
+    }
+    else if (stopType === 'place' && !newStop) {
+        defaultLocId = stopData.placeId;
+    }
+    else if (newStop) {
+        defaultLocId = cities[0].id;
+    }
+    else {
+        defaultLocId = stopData.cityId;
+    }
+    const [locationId, setLocationId] = useState(defaultLocId);
 
     const formHandler = async (e) => {
         e.preventDefault();
@@ -47,6 +61,7 @@ function StopForm ({ newStop, biggestOrder, stopData }) {
 
             if (response.success) {
                 alert('Gestión de Parada exitosa.')
+                window.location.reload();
             }
             else {
                 throw new Error(response.error)
@@ -68,6 +83,7 @@ function StopForm ({ newStop, biggestOrder, stopData }) {
                         onClick={(e) => {
                             e.preventDefault()
                             setStopType(stopType === 'place' ? 'city' : 'place')
+                            setLocationId(stopType === 'place' ? cities[0].id : places[0].id)
                         }}
                     >
                         {stopType === 'place' ? 'Tipo: Lugar (Recomendado)' : 'Tipo: Ciudad'}
@@ -89,6 +105,7 @@ function StopForm ({ newStop, biggestOrder, stopData }) {
                     <InputLabel id="location-label">Lugar</InputLabel>
                     <Select
                         labelId="location-label"
+                        required
                         id="location-select"
                         name="location"
                         onChange={(e) => setLocationId(e.target.value)}

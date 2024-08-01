@@ -24,6 +24,7 @@ function PlaceCard ({ place, cityName, showDelete }) {
 
             if (response.success) {
                 alert('Lugar borrado correctamente');
+                window.location.reload();
             }
             else {
                 throw new Error(response.error);

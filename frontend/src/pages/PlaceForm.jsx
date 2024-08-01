@@ -23,10 +23,10 @@ function PlaceForm () {
     const [name, setName] = useState('');
     const [imgUrl, setImgUrl] = useState('');
     const [address, setAddress] = useState('')
-    const [city, setCity] = useState(cities[0].id);
+    const [city, setCity] = useState(cities[0]?.id || '');
     const [category, setCategory] = useState('Hotel')
 
-    if (!state.isAuthenticated || state.profile.role !== 'admin') {
+    if (state.profile?.role !== 'admin') {
         navigate('/');
     }
 
@@ -52,6 +52,7 @@ function PlaceForm () {
 
             if (response.success) {
                 alert('Lugar creado correctamente.')
+                window.location.reload();
             }
             else {
                 throw new Error(response.error)

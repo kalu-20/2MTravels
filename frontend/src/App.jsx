@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react'
-import { RouterProvider } from "react-router-dom";
+import {RouterProvider} from "react-router-dom";
 
 import DataContext from "./contexts/DataContext.jsx";
-
 import router from './routes/Router.jsx'
 import {createTheme, ThemeProvider} from "@mui/material";
+import {ProfileProvider} from "./contexts/ProfileContext.jsx";
 
 const theme = createTheme({
     palette: {
@@ -69,13 +69,13 @@ function App() {
     }, []);
 
     return (
-        <>
+        <ProfileProvider>
             <DataContext.Provider value={{ cities, places, travels }}>
             <ThemeProvider theme={theme}>
                 <RouterProvider router={router} />
             </ThemeProvider>
             </DataContext.Provider>
-        </>
+        </ProfileProvider>
     )
 }
 

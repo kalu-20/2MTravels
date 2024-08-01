@@ -37,6 +37,7 @@ function StopCard ({ stopData, cityName, biggestOrder }) {
 
             if (response.success) {
                 alert('Parada borrada correctamente.')
+                window.location.reload();
             }
             else {
                 throw new Error(response.error)

@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {AppBar, CssBaseline, GlobalStyles, Toolbar, Typography, Link as StyleLink} from "@mui/material";
 
@@ -18,40 +18,9 @@ const buttonStyle = {
     mx: 1.5,
 };
 
-function isTokenExpired (date1, date2, timeSpan) {
-
-    const timeDifference = Math.abs(date2 - date1);
-    const hoursDifference = timeDifference / 1000;
-
-    return hoursDifference > timeSpan;
-}
-
 function Header() {
 
-    const { state, dispatch } = useContext(ProfileContext);
-
-    useEffect(() => {
-        const currTime = new Date();
-        const loginTime = new Date(
-            JSON.parse(localStorage.getItem('loginDate'))
-        );
-
-        if (isTokenExpired(loginTime, currTime, 60 * 60 * 5)) {
-            dispatch({ type: 'LOGOUT' })
-        }
-        else if (!state.isAuthenticated && localStorage.getItem('loginDate')) {
-            const storedState = JSON.parse(localStorage.getItem('state'))
-
-            dispatch({
-                type: 'LOGIN',
-                token: storedState.token,
-            })
-            dispatch({
-                type: 'PROFILE',
-                profile: storedState.profile
-            })
-        }
-    }, []);
+    const { state } = useContext(ProfileContext);
 
     return (
         <header>

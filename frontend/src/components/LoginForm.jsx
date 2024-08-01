@@ -78,6 +78,7 @@ function LoginForm () {
         }
         catch (err) {
             console.log(err.message)
+            alert('Error al iniciar sesión.')
         }
     }
 

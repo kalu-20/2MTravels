@@ -3,7 +3,7 @@ import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {Button, Container, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import DataContext from "../contexts/DataContext.jsx";
 
-function ProfileForm ({ newProfile }) {
+function ProfileForm ({ newProfile, openFormHandler }) {
 
     const { state, dispatch } = useContext(ProfileContext);
     const { cities } = useContext(DataContext);
@@ -51,6 +51,7 @@ function ProfileForm ({ newProfile }) {
                         cityId: Number(city),
                     }
                 })
+                openFormHandler(false);
             }
             else {
                 alert('Gestión de perfil fallida.')

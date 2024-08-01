@@ -49,6 +49,7 @@ function PromoForm ({ newPromo }) {
 
             if (response.success) {
                 alert('Gestión de promoción exitosa.');
+                window.location.reload();
             }
         }
         catch (err) {

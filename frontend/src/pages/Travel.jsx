@@ -2,7 +2,7 @@ import StopCard from "../components/StopCard.jsx";
 import {useContext, useEffect, useState} from "react";
 import DataContext from "../contexts/DataContext.jsx";
 import {TravelContext} from "../contexts/TravelContext.jsx";
-import {Navigate, useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import TravelForm from "../components/TravelForm.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import PromoForm from "../components/PromoForm.jsx";
@@ -23,7 +23,7 @@ const modalBoxSx = {
 };
 
 function Travel () {
-    const navigate = useNavigate();
+
     const { id } = useParams();
 
     const [stops, setStops] = useState([]);
@@ -119,7 +119,7 @@ function Travel () {
 
             if (response.success) {
                 alert('Viaje borrado correctamente.')
-                navigate('/')
+                window.location.assign('/travels');
             }
         }
         catch (err) {
@@ -145,6 +145,7 @@ function Travel () {
 
             if (response.success) {
                 alert('Promoción borrada exitosamente.')
+                window.location.reload();
             }
         }
         catch (err) {
@@ -175,6 +176,7 @@ function Travel () {
 
             if (response.success) {
                 alert('Viaje comprado correctamente.');
+                window.location.assign('/my-travels');
             }
             else {
                 throw new Error(response.error);

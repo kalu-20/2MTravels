@@ -37,7 +37,7 @@ function Profile () {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${1}`,
+                    "Authorization": `Bearer ${state.token}`,
                 },
                 body: JSON.stringify({
                     profileId: state.profile.profileId
@@ -47,6 +47,7 @@ function Profile () {
 
             if (response.success) {
                 alert('Cuenta borrada exitosamente.')
+                dispatch({type: 'LOGOUT'})
                 navigate('/sign-up')
             }
             else {
@@ -144,7 +145,7 @@ function Profile () {
                         onClose={() => setProfileFormOpen(!profileFormOpen)}
                     >
                         <Box sx={modalBoxSx}>
-                            <ProfileForm newProfile={true}/>
+                            <ProfileForm newProfile={true} openFormHandler={setProfileFormOpen}/>
                         </Box>
                     </Modal>
                 </Box>
