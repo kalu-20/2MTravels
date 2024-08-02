@@ -2,6 +2,7 @@ import StopForm from "./StopForm.jsx";
 import {useContext, useState} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {Box, Button, CardContent, CardMedia, Grid, Modal, Typography} from "@mui/material";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 const modalBoxSx = {
     position: 'absolute',
@@ -27,7 +28,7 @@ function StopCard ({ stopData, cityName, biggestOrder }) {
         }
 
         try {
-            const res = await fetch(`http://localhost:3000/stops/delete/${stopData.stopId}`, {
+            const res = await fetchRequest(`stops/delete/${stopData.stopId}`, {
                 method: 'DELETE',
                 headers: {
                     "Authorization": `Bearer ${state.token}`,

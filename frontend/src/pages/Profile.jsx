@@ -5,6 +5,7 @@ import ProfileForm from "../components/ProfileForm.jsx";
 import {useNavigate} from "react-router-dom";
 import RegisterForm from "../components/RegisterForm.jsx";
 import {Box, Button, Container, Modal} from "@mui/material";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 const modalBoxSx = {
     position: 'absolute',
@@ -33,7 +34,7 @@ function Profile () {
         }
 
         try {
-            const res = await fetch(`http://localhost:3000/users/delete/${state.profile.id}`, {
+            const res = await fetchRequest(`users/delete/${state.profile.id}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",

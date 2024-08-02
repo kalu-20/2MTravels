@@ -1,6 +1,7 @@
 import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {useContext} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function PlaceCard ({ place, cityName, showDelete }) {
 
@@ -14,7 +15,7 @@ function PlaceCard ({ place, cityName, showDelete }) {
         }
 
         try {
-            const res = await fetch(`http://localhost:3000/places/delete/${place.id}`, {
+            const res = await fetchRequest(`places/delete/${place.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${state.token}`

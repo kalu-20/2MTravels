@@ -5,6 +5,7 @@ import DataContext from "./contexts/DataContext.jsx";
 import router from './routes/Router.jsx'
 import {createTheme, ThemeProvider} from "@mui/material";
 import {ProfileProvider} from "./contexts/ProfileContext.jsx";
+import fetchRequest from "./util/fetchRequest.jsx";
 
 const theme = createTheme({
     palette: {
@@ -32,7 +33,7 @@ function App() {
 
     useEffect(() => {
         const getCities = async () => {
-            const res = await fetch('http://localhost:3000/cities',{
+            const res = await fetchRequest('cities',{
                 method: 'GET'
             })
 
@@ -44,7 +45,7 @@ function App() {
         getCities()
 
         const getPlaces = async () => {
-            const res = await fetch('http://localhost:3000/places',{
+            const res = await fetchRequest('places',{
                 method: 'GET'
             })
 
@@ -56,7 +57,7 @@ function App() {
         getPlaces()
 
         const getTravels = async () => {
-            const res = await fetch('http://localhost:3000/travels', {
+            const res = await fetchRequest('travels', {
                 method: 'GET'
             })
 

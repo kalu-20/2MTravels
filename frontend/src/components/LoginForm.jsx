@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import { ProfileContext } from "../contexts/ProfileContext.jsx";
 import {Avatar, Box, Button, Container, CssBaseline, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function LoginForm () {
 
@@ -17,7 +18,7 @@ function LoginForm () {
 
         try {
 
-            const userRes = await fetch('http://localhost:3000/users/login', {
+            const userRes = await fetchRequest('users/login', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -44,7 +45,7 @@ function LoginForm () {
             dispatch({ type: 'LOGIN', token });
             dispatch({ type: 'PROFILE', profile });
 
-            const profileRes = await fetch('http://localhost:3000/profiles', {
+            const profileRes = await fetchRequest('profiles', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

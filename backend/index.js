@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const path = require('path');
 
 const userRouter = require('./routes/userRouter');
 const profileRouter = require('./routes/profileRouter');
@@ -20,24 +21,26 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+
 app.use(cors(corsOptions))
 app.use(express.json());
 
-app.use('/cities', cityRouter);
-app.use('/places', placeRouter);
-app.use('/users', userRouter);
-app.use('/travels', travelRouter);
-app.use('/stops', stopRouter);
-app.use('/promos', promoRouter);
+app.use('/api/cities', cityRouter);
+app.use('/api/places', placeRouter);
+app.use('/api/users', userRouter);
+app.use('/api/travels', travelRouter);
+app.use('/api/stops', stopRouter);
+app.use('/api/promos', promoRouter);
 
-app.use('/profiles', verifyAuthUser, profileRouter);
-app.use('/passengers', verifyAuthUser, passengerRouter);
+app.use('/api/profiles', verifyAuthUser, profileRouter);
+app.use('/api/passengers', verifyAuthUser, passengerRouter);
+
 
 app.use((req, res) => {
-    res.status(404).send({
-	success: false,
-	msg: "Invalid request, resource not found.",
-    });
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {

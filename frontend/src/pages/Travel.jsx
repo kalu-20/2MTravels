@@ -10,6 +10,7 @@ import StopForm from "../components/StopForm.jsx";
 import {Box, Button, Container, Grid, Modal, Typography} from "@mui/material";
 
 import '../App.css'
+import fetchRequest from "../util/fetchRequest.jsx";
 
 const modalBoxSx = {
     position: 'absolute',
@@ -38,7 +39,7 @@ function Travel () {
 
     useEffect(() => {
         const getTravel = async () => {
-            const res = await fetch(`http://localhost:3000/travels/${id}`, {
+            const res = await fetchRequest(`travels/${id}`, {
                 method: 'GET'
             });
             const response = await res.json();
@@ -55,7 +56,7 @@ function Travel () {
 
     useEffect(() => {
         const getStops = async () => {
-            const res = await fetch('http://localhost:3000/stops', {
+            const res = await fetchRequest('stops', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
@@ -78,7 +79,7 @@ function Travel () {
 
     useEffect(() => {
         const getMyTravels = async () => {
-            const res = await fetch('http://localhost:3000/travels/passenger', {
+            const res = await fetchRequest('travels/passenger', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -108,7 +109,7 @@ function Travel () {
         }
 
         try {
-            const res = await fetch(`http://localhost:3000/travels/delete/${travel.travel_id}`, {
+            const res = await fetchRequest(`travels/delete/${travel.travel_id}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -135,7 +136,7 @@ function Travel () {
         }
 
         try {
-            const res = await fetch(`http://localhost:3000/promos/delete/${travel.promo_id}`, {
+            const res = await fetchRequest(`promos/delete/${travel.promo_id}`, {
                 method: 'DELETE',
                 headers: {
                     "Authorization": `Bearer ${state.token}`,
@@ -161,7 +162,7 @@ function Travel () {
         }
 
         try {
-            const res = await fetch('http://localhost:3000/passengers/create', {
+            const res = await fetchRequest('passengers/create', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

@@ -13,6 +13,7 @@ import {
     Select,
     TextField
 } from "@mui/material";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function RegisterForm ({ editingUser }) {
 
@@ -37,7 +38,7 @@ function RegisterForm ({ editingUser }) {
             const requestPath = editingUser ? `edit/${state.profile.id}` : 'register';
             const requestMethod = editingUser ? 'PUT' : 'POST';
 
-            const res = await fetch(`http://localhost:3000/users/${requestPath}`, {
+            const res = await fetchRequest(`users/${requestPath}`, {
                 method: requestMethod,
                 headers: {
                     "Content-Type": "application/json",

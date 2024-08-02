@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import {TravelContext} from "../contexts/TravelContext.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {Button, Container, TextField} from "@mui/material";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function PromoForm ({ newPromo }) {
     const { travel } = useContext(TravelContext);
@@ -37,7 +38,7 @@ function PromoForm ({ newPromo }) {
             const requestPath = newPromo ? 'create' : `edit/${travel.promo_id}`;
             const requestMethod = newPromo ? 'POST' : 'PUT';
 
-            const res = await fetch(`http://localhost:3000/promos/${requestPath}`, {
+            const res = await fetchRequest(`promos/${requestPath}`, {
                 method: requestMethod,
                 headers: {
                     "Content-Type": "application/json",

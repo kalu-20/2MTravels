@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import {TravelContext} from "../contexts/TravelContext.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {Button, Container, TextField} from "@mui/material";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function TravelForm ({ newTravel }) {
 
@@ -29,7 +30,7 @@ function TravelForm ({ newTravel }) {
             const requestPath = newTravel ? 'create' : `edit/${travel.travel_id}`;
             const requestMethod = newTravel ? 'POST' : 'PUT';
 
-            const res = await fetch(`http://localhost:3000/travels/${requestPath}`, {
+            const res = await fetchRequest(`travels/${requestPath}`, {
                 method: requestMethod,
                 headers: {
                     "Content-Type": "application/json",

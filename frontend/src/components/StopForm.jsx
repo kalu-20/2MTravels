@@ -3,6 +3,7 @@ import {TravelContext} from "../contexts/TravelContext.jsx";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {Button, Container, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import DataContext from "../contexts/DataContext.jsx";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function StopForm ({ newStop, biggestOrder, stopData }) {
     const { travel } = useContext(TravelContext);
@@ -49,7 +50,7 @@ function StopForm ({ newStop, biggestOrder, stopData }) {
             const requestPath = newStop ? 'create' : `edit/${stopData.stopId}`;
             const requestMethod = newStop ? 'POST' : 'PUT';
 
-            const res = await fetch(`http://localhost:3000/stops/${requestPath}`, {
+            const res = await fetchRequest(`stops/${requestPath}`, {
                 method: requestMethod,
                 headers: {
                     "Content-Type": "application/json",

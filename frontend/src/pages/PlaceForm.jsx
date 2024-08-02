@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import DataContext from "../contexts/DataContext.jsx";
 import {Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import PlaceCard from "../components/PlaceCard.jsx";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 const CATEGORIES = [
     'Hotel', 'Hostel', 'Camping',
@@ -34,7 +35,7 @@ function PlaceForm () {
         e.preventDefault();
 
         try {
-            const res = await fetch('http://localhost:3000/places/create', {
+            const res = await fetchRequest('places/create', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

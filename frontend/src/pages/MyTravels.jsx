@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {Button, CardContent, Container, Grid, Typography} from "@mui/material";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function MyTravels () {
 
@@ -10,7 +11,7 @@ function MyTravels () {
 
     useEffect(() => {
         const getMyTravels = async () => {
-            const res = await fetch('http://localhost:3000/travels/passenger', {
+            const res = await fetchRequest('travels/passenger', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -40,7 +41,7 @@ function MyTravels () {
         }
 
         try {
-            const res = await fetch('http://localhost:3000/passengers/delete', {
+            const res = await fetchRequest('passengers/delete', {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",

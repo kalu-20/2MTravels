@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import {ProfileContext} from "../contexts/ProfileContext.jsx";
 import {Button, Container, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import DataContext from "../contexts/DataContext.jsx";
+import fetchRequest from "../util/fetchRequest.jsx";
 
 function ProfileForm ({ newProfile, openFormHandler }) {
 
@@ -28,7 +29,7 @@ function ProfileForm ({ newProfile, openFormHandler }) {
             const requestPath = newProfile ? 'create' : `edit/${state.profile.profileId}`;
             const requestMethod = newProfile ? 'POST' : 'PUT';
 
-            const res = await fetch(`http://localhost:3000/profiles/${requestPath}`, {
+            const res = await fetchRequest(`profiles/${requestPath}`, {
                 method: requestMethod,
                 headers: {
                     "Content-Type": "application/json",
