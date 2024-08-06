@@ -254,7 +254,7 @@ function Travel () {
                             </Button>
                         </Box>
                     )}
-                    {(state.isAuthenticated && !myTravels.some(tr => tr.travel_id === travel.travel_id)) && (
+                    {(state.isAuthenticated && !myTravels.some(tr => tr.travel_id === travel.travel_id) && state.profile.profileId) && (
                         <Button fullWidth sx={{marginTop: '10px', bgcolor: 'secondary.secondary'}} variant='contained'
                                 onClick={purchaseTravelHandler}>
                             Comprar Viaje

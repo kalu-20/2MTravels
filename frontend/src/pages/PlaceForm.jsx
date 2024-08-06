@@ -140,7 +140,7 @@ function PlaceForm () {
                 <h2>Lugares Turísticos</h2>
                 <Grid container spacing={4}>
                     {places.map(place => {
-                        const cityName = cities.find(city => city.id === place.cities_id).name
+                        const cityName = cities.find(city => city.id === place.cities_id)?.name || '';
                         return (
                             <PlaceCard key={place.id} place={place} cityName={cityName} showDelete={true} />
                         )
