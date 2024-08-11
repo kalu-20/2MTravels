@@ -57,8 +57,8 @@ function Home () {
                     podrás vivir grandes experiencias!
                 </Typography>
 
-                <div id='banner'>
-                    <img id='img-banner' src="../../src/assets/banner_argentina.jpg" alt="Bus de viaje"/>
+                <div id='salta'>
+                    <img id='img-salta' src="../../src/assets/salta.jpg" alt="Bus de viaje"/>
                 </div>
 
                 <h2>Quienes Somos</h2>

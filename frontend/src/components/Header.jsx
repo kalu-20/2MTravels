@@ -40,17 +40,19 @@ function Header() {
                             textTransform: 'none'
                         }} >
                             <div style={{
-                                maxWidth: '40px',
-                                maxHeight: '40px',
+                                maxWidth: '100px',
+                                maxHeight: '100px',
                                 marginRight: '5px',
                                 backgroundColor: 'white',
                                 alignItems: 'center',
                                 borderRadius: '100%',
                             }}>
                                 <img style={{
-                                    margin: '10%',
-                                    maxWidth: '80%'
-                                }} src='../../src/assets/icon.png' alt='Icono Las 2M Travel'/>
+                                    margin: '0%',
+                                    maxWidth: '100%',
+                                    borderRadius: '100%',
+
+                                }} src='../../src/assets/log.png' alt='Icono Las 2M Travel'/>
                             </div>
                             <i>Las 2M Travel</i>
                         </Typography>

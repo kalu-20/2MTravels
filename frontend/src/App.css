@@ -33,17 +33,17 @@
     max-width: 300px;
 }
 
-#banner {
+#salta {
     position: relative;
     height: 50vh;
     width: 100%;
     overflow: hidden;
 }
 
-#img-banner {
+#img-salta {
     position: absolute;
     right: 0;
-    bottom: -90%;
+    bottom: -50%;
 }
 
 .second-div {
