@@ -3,3 +3,4 @@ Description: Es una aplicacion de viajes , construida con React; pensada para vi
 Tecnology: Api propia utilizando React-DOM , React-Router-DOM , Express ,mysql2, jsonwebtoken, vite, Css.
 Flujo de Desarrollo: se crearon las pull requests en Git Bash y se realizaron las revisiones correspondiente.
 Desarrollo de Produccion: Se utiliza Vercel para deployar el Proyecto.
+Autores: Maria Eugenia Roy , Maria Claudia Fabian.
